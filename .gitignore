@@ -1,0 +1,65 @@
+# .NET build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code workspace settings
+.vscode/
+
+# Visual Studio files
+.vs/
+*.dbmdl
+*.pdb
+
+# NuGet packages
+*.nupkg
+# NuGet restore results
+packages/
+# NuGet v3 files
+*.snupkg
+
+# Build results
+*.dll
+*.exe
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Publish results
+publish/
+*.publishsettings
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Rider IDE files
+.idea/
+*.sln.iml
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Entity Framework
+Migrations/
+
+# Others
+*.vspscc
+*.vssscc
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
