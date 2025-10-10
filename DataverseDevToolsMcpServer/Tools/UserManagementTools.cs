@@ -1116,5 +1116,175 @@ namespace DataverseDevToolsMcpServer.Tools
                 return $"An error occurred: {ex.Message}";
             }
         }
+
+        [McpServerTool, Description(@"Assign security role to a Team based on the Team's business unit")]
+        public async Task<string> AssignSecurityRoleToTeam(ServiceClient serviceClient,
+            [Description("Security Role Id based on the business unit of the Team")] string roleId,
+            [Description("Team Id (Guid)")] string teamId)
+        {
+            if (!Guid.TryParse(roleId, out Guid roleGuid))
+            {
+                return $"Invalid GUID format for Role Id: {roleId}";
+            }
+            if (!Guid.TryParse(teamId, out Guid teamGuid))
+            {
+                return $"Invalid GUID format for Team Id: {teamId}";
+            }
+            try
+            {
+                var associateRequest = new AssociateRequest
+                {
+                    Target = new EntityReference("team", teamGuid),
+                    RelatedEntities = new EntityReferenceCollection
+                    {
+                        new EntityReference("role", roleGuid)
+                    },
+                    Relationship = new Relationship("teamroles_association")
+                };
+                await serviceClient.ExecuteAsync(associateRequest);
+                return $"Security Role with Id {roleId} has been assigned to Team with Id {teamId} successfully.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while assigning security role to team.");
+                return $"An error occurred: {ex.Message}";
+            }
+        }
+
+        [McpServerTool, Description(@"Remove security role from a Team based on the team's business unit")]
+        public async Task<string> RemoveSecurityRoleFromTeam(ServiceClient serviceClient,
+            [Description("Security Role Id based on the business unit of the Team")] string roleId,
+            [Description("Team Id (Guid)")] string teamId)
+        {
+            if (!Guid.TryParse(roleId, out Guid roleGuid))
+            {
+                return $"Invalid GUID format for Role Id: {roleId}";
+            }
+            if (!Guid.TryParse(teamId, out Guid teamGuid))
+            {
+                return $"Invalid GUID format for Team Id: {teamId}";
+            }
+            try
+            {
+                var disassociateRequest = new DisassociateRequest
+                {
+                    Target = new EntityReference("team", teamGuid),
+                    RelatedEntities = new EntityReferenceCollection
+                    {
+                        new EntityReference("role", roleGuid)
+                    },
+                    Relationship = new Relationship("teamroles_association")
+                };
+                await serviceClient.ExecuteAsync(disassociateRequest);
+                return $"Security Role with Id {roleId} has been removed from Team with Id {teamId} successfully.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while removing security role from team.");
+                return $"An error occurred: {ex.Message}";
+            }
+        }
+
+        [McpServerTool, Description("Change Business Unit of the Team")]
+        public async Task<string> ChangeTeamBusinessUnit(ServiceClient serviceClient,
+            [Description("Team Id (Guid) of the Team")] string teamId,
+            [Description("Business Unit Id (Guid) to which the Team should be moved")] string businessUnitId)
+        {
+            if (!Guid.TryParse(teamId, out Guid teamGuid))
+            {
+                return $"Invalid GUID format for Team Id: {teamId}";
+            }
+            if (!Guid.TryParse(businessUnitId, out Guid businessUnitGuid))
+            {
+                return $"Invalid GUID format for Business Unit Id: {businessUnitId}";
+            }
+            try
+            {
+                var teamEntity = new Entity("team", teamGuid);
+                teamEntity["businessunitid"] = new EntityReference("businessunit", businessUnitGuid);
+                var updateRequest = new UpdateRequest
+                {
+                    Target = teamEntity
+                };
+                await serviceClient.ExecuteAsync(updateRequest);
+                return $"Team with Id {teamId} has been moved to Business Unit with Id {businessUnitId} successfully.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while changing team's business unit.");
+                return $"An error occurred: {ex.Message}";
+            }
+
+        }
+
+        [McpServerTool, Description("Get the security roles assigned to a team by team id (Guid)")]
+        public async Task<string> GetSecurityRolesByTeamId(ServiceClient serviceClient,
+            [Description("Team Id (Guid)")] string teamId)
+        {
+            if (!Guid.TryParse(teamId, out Guid teamGuid))
+            {
+                return $"Invalid GUID format for Team Id: {teamId}";
+            }
+            try
+            {
+                var query = new QueryExpression("role")
+                {
+                    ColumnSet = new ColumnSet("name", "roleid", "businessunitid"),
+                    LinkEntities =
+                {
+                    new LinkEntity
+                    {
+                        LinkFromEntityName = "role",
+                        LinkFromAttributeName = "roleid",
+                        LinkToEntityName = "teamroles",
+                        LinkToAttributeName = "roleid",
+                        JoinOperator = JoinOperator.Inner,
+                        LinkEntities =
+                        {
+                            new LinkEntity
+                            {
+                                LinkFromEntityName = "teamroles",
+                                LinkFromAttributeName = "teamid",
+                                LinkToEntityName = "team",
+                                LinkToAttributeName = "teamid",
+                                JoinOperator = JoinOperator.Inner,
+                                LinkCriteria = new FilterExpression
+                                {
+                                    Conditions =
+                                    {
+                                        new ConditionExpression("teamid", ConditionOperator.Equal, teamGuid)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                };
+                var roles = await serviceClient.RetrieveMultipleAsync(query);
+                if (roles.Entities.Count == 0)
+                {
+                    return $"No Security Role found assigned to Team with Id {teamId}";
+                }
+                List<Role> roleList = new List<Role>();
+                foreach (var role in roles.Entities)
+                {
+                    Role roleObj = new Role
+                    {
+                        roleId = role.Id,
+                        name = role.GetAttributeValue<string>("name"),
+                        businessUnitId = (Guid)(role.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("businessunitid")?.Id),
+                        businessUnitName = role.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("businessunitid")?.Name
+                    };
+                    roleList.Add(roleObj);
+                }
+                string result = JsonSerializer.Serialize(roleList);
+                return $"Security Roles assigned to Team with Id {teamId}:\n {result}";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching security roles by team id.");
+                return $"An error occurred: {ex.Message}";
+            }
+        }
     }
 }
