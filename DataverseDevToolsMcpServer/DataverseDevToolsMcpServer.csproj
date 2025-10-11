@@ -13,12 +13,13 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>vignaesh01.dataversedevtoolsmcpserver</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Vignaesh Ram A</Authors>
     <Company>vignaesh01@gmail.com</Company>
     <Product>Dataverse Dev Tools MCP Server</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageTags>AI; MCP; server; stdio; dataverse; dynamics365; powerplatform</PackageTags>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	  <RepositoryUrl>https://github.com/vignaesh01/DataverseDevToolsMcpServer</RepositoryUrl>
 	  <RepositoryType>git</RepositoryType>
     <Description>A Model Context Protocol (MCP) server exposing ready-to-use Dataverse tools for user and security administration, data operations, metadata exploration, and troubleshooting.</Description>
@@ -35,6 +36,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="README.md" Pack="true" PackagePath="">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="LICENSE.txt" Pack="true" PackagePath="">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
