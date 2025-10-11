@@ -278,7 +278,7 @@ Below are the tools exposed by the server, grouped by category. Each item links 
   - For lookups, use <SchemaName>@odata.bind with the URL of the related record.
 - Source files for tools:
   - User Management: [DataverseDevToolsMcpServer/Tools/UserManagementTools.cs](DataverseDevToolsMcpServer/Tools/UserManagementTools.cs)
-  - Security Management: [DataverseDevToolsMcpServer/Tools/SecurityManagement.cs](DataverseDevToolsMcpServer/Tools/SecurityManagement.cs)
+  - Security Management: [DataverseDevToolsMcpServer/Tools/SecurityManagementTools.cs](DataverseDevToolsMcpServer/Tools/SecurityManagement.cs)
   - Data Management: [DataverseDevToolsMcpServer/Tools/DataManagementTools.cs](DataverseDevToolsMcpServer/Tools/DataManagementTools.cs)
   - Entity Metadata: [DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs](DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs)
   - Troubleshooting: [DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs](DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs)
