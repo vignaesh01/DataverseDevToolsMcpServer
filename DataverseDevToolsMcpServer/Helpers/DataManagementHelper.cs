@@ -110,6 +110,42 @@ namespace DataverseDevToolsMcpServer.Helpers
 
             return sb.ToString();
         }
+
+        public static string CleanRequestUrl(string requestUrl)
+        {
+            //if requesURl starts with /api/data/v9.*/ or api/data/v9.*/ pattern then remove it
+            if (requestUrl.StartsWith("/api/data/v9.", StringComparison.OrdinalIgnoreCase))
+            {
+                int index = requestUrl.IndexOf('/', 10); // Find the next '/' after /api/data/v9.
+                if (index != -1)
+                {
+                    requestUrl = requestUrl.Substring(index);
+                }
+                else
+                {
+                    requestUrl = string.Empty; // If there's no further '/', set to empty
+                }
+            }
+            else if (requestUrl.StartsWith("api/data/v9.", StringComparison.OrdinalIgnoreCase))
+            {
+                int index = requestUrl.IndexOf('/', 9); // Find the next '/' after api/data/v9.
+                if (index != -1)
+                {
+                    requestUrl = requestUrl.Substring(index);
+                }
+                else
+                {
+                    requestUrl = string.Empty; // If there's no further '/', set to empty
+                }
+            }
+
+
+            if (requestUrl.EndsWith("/"))
+            {
+                requestUrl = requestUrl.Substring(0, requestUrl.Length - 1);
+            }
+            return requestUrl;
+        }
     }
 
     

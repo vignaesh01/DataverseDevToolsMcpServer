@@ -98,11 +98,11 @@ namespace DataverseDevToolsMcpServer.Tools
 
         }
 
-        [McpServerTool, Description("Execute a Dataverse/Dynamics 365 Web API request and return the response.")]
+        [McpServerTool, Description("Execute a Dataverse/Dynamics 365 Web API request and return the response.Request url should not contain /api/data/v9.*/")]
         public async Task<string> ExecuteWebApi(
             ServiceClient serviceClient,
             [Description("HTTP Method (GET, POST, PATCH, DELETE)")] string httpMethod,
-            [Description(@"Web API request URL (relative to the service root URL). 
+            [Description(@"Web API request URL (relative to the service root URL).Request url should not contain /api/data/v9.*/. 
             The path and query parameters that you wish to pass onto the Web API")] string requestUrl,
             [Description("Request body in JSON format (for POST and PATCH requests)")] string requestBody = null,
             [Description("Additional headers")] Dictionary<String, List<String>> customHeaders = null,
@@ -116,14 +116,27 @@ namespace DataverseDevToolsMcpServer.Tools
             try
             {
                 var method = new System.Net.Http.HttpMethod(httpMethod.ToUpper());
+                requestUrl =DataManagementHelper.CleanRequestUrl(requestUrl);
                 var response = await serviceClient.ExecuteWebRequestAsync(method, requestUrl, requestBody, customHeaders, contentType);
                 if (response.IsSuccessStatusCode)
                 {
-                    result = await response.Content.ReadAsStringAsync();
+                    //append response headers to result
+                    result += "Response Headers:\n";
+                    foreach (var header in response.Headers)
+                    {
+                        result += $"{header.Key}: {string.Join(", ", header.Value)}\n";
+                    }
+                    result += "Response Body:\n";
+                    result += await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    result = $"Error: {response.StatusCode} - {response.ReasonPhrase}\n{await response.Content.ReadAsStringAsync()}";
+                    result += "Response Headers:\n";
+                    foreach (var header in response.Headers)
+                    {
+                        result += $"{header.Key}: {string.Join(", ", header.Value)}\n";
+                    }
+                    result += $"Error: {response.StatusCode} - {response.ReasonPhrase}\n{await response.Content.ReadAsStringAsync()}";
                 }
                 return result;
             }
