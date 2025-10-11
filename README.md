@@ -24,15 +24,6 @@ Note: The executable command name is the tool command published with the package
 
 ## Setup
 
-
-## Run
-
-- Start the server:
-  - dataversedevtoolsmcpserver --environmentUrl https://yourorg.crm.dynamics.com
-- The server communicates over stdio and is discoverable by MCP-compatible clients (for example, GitHub Copilot Chat). Pass --environmentUrl every time you start it.
-
-Authentication uses OAuth interactive login and will prompt if needed.
-
 ## Set up in MCP clients
 
 Use the server from your favorite MCP-enabled client. Below are quick setups for VS Code, Visual Studio, and Claude on Windows.
@@ -56,7 +47,7 @@ Using the Global Tool (Recommended):
 ```json
 {
   "servers": {
-    "DataverseDevToolsMCPServer": {
+    "dvmcp": {
       "type": "stdio",
       "command": "dataversedevtoolsmcpserver",
       "args": [
@@ -73,7 +64,7 @@ Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):
 ```json
 {
   "servers": {
-    "DataverseDevToolsMCPServer": {
+    "dvmcp": {
       "type": "stdio",
       "command": "dotnet",
       "args": [
@@ -97,7 +88,8 @@ Usage: Open Copilot Chat in VS Code and ask to use the Dataverse tools; the clie
 Prerequisites:
 - Visual Studio 2022 17.10 or later
 - GitHub Copilot and Copilot Chat installed
-- MCP features enabled (Preview/Experimental), if required by your VS version
+- MCP features enabled (Preview/Experimental), if required by your VS version. 
+- Refer : https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=vs-2022#configuration-example-with-a-github-mcp-server
 
 Configuration options (depending on your VS build):
 The following walkthrough requires version 17.14.9 or later.
@@ -107,7 +99,7 @@ The following walkthrough requires version 17.14.9 or later.
 ```json
 {
   "servers": {
-    "DataverseDevToolsMCPServer": {
+    "dvmcp": {
       "type": "stdio",
       "command": "dataversedevtoolsmcpserver",
       "args": [
@@ -123,20 +115,31 @@ The following walkthrough requires version 17.14.9 or later.
 - Select the tools that you want to use by clicking on toolset wrench icon.
 - After configuration, open Copilot Chat in Visual Studio and the Dataverse server should appear as an available toolset.
 
-### Claude (Desktop or Web with MCP support)
+### Claude Desktop
 
 Prerequisites:
-- Claude app/build with MCP support enabled (Labs/Settings)
+- If you have not already done so, download and install Claude desktop from here.
+- Launch Claude desktop and navigate to File -> Settings
+- Select Developer & Edit Config
+- You will be launched into Claude directory:
+- Open claude_desktop_config.json in Visual Studio Code and paste the following configuration in the JSON file.
 
-Add a new local MCP server via Claude’s Settings > Integrations/Servers (labels vary by build):
-- Command: `dataversedevtoolsmcpserver`
-- Args: `--environmentUrl https://yourorg.crm.dynamics.com`
+```json
+{
+  "mcpServers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dataversedevtoolsmcpserver",
+      "args": [
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com"
+      ]
+    }
+  }
+}
+```
+- Save this file and go back to Claude. Exit Claude – don't just close the window, but use the menu to exit.
 
-If running from source instead of the global tool, use:
-- Command: `dotnet`
-- Args: `run --project C:/Projects/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer.csproj --environmentUrl https://yourorg.crm.dynamics.com`
-
-Once added, start a new chat and invoke Dataverse operations in natural language; Claude will call the server tools under the hood.
 
 ## Sample prompts
 
@@ -198,21 +201,21 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 
 | Tool Name | Description |
 | --- | --- |
-| GetCurrentUserInfo | Get details of the current logged-in user |
+| GetCurrentUser | Get details of the current logged-in user |
 | GetUserByName | Get user details by full name |
 | GetUserById | Get user details by user ID |
 | SearchUsersByKeyword | Search users where fullname contains a keyword (with paging) |
 | GetUserQueues | List queues for a user (with paging) |
 | GetUserTeams | List teams for a user (with paging) |
-| GetUserSecurityRoles | List security roles for a user |
-| GetBusinessUnitByName | Get BU details by name |
-| SearchBusinessUnitsByKeyword | Search BUs by keyword (with paging) |
-| GetRootBusinessUnit | Get the root BU |
-| GetSecurityRoleByNameAndBusinessUnit | Get a role by name in a specific BU |
-| SearchSecurityRolesByKeywordAndBusinessUnit | Search roles by keyword in a BU (with paging) |
-| AssignSecurityRoleToUser | Assign role to user |
-| RemoveSecurityRoleFromUser | Remove role from user |
-| ChangeUserBusinessUnit | Change user’s BU |
+| GetUserRoles | List security roles for a user |
+| GetBUByName | Get BU details by name |
+| SearchBUByKeyword | Search BUs by keyword (with paging) |
+| GetRootBU | Get the root BU |
+| GetRoleByNameAndBU | Get a role by name in a specific BU |
+| SearchRolesByKeywordAndBU | Search roles by keyword in a BU (with paging) |
+| AssignRoleToUser | Assign role to user |
+| RemoveRoleFromUser | Remove role from user |
+| ChangeUserBU | Change user’s BU |
 | GetQueueByName | Get queue by name |
 | SearchQueuesByKeyword | Search queues by keyword (with paging) |
 | AddUserToQueue | Add user to queue |
@@ -221,25 +224,25 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | SearchTeamsByKeyword | Search teams by keyword (with paging) |
 | AddUserToTeam | Add user to team |
 | RemoveUserFromTeam | Remove user from team |
-| AssignSecurityRoleToTeam | Assign role to team |
-| RemoveSecurityRoleFromTeam | Remove role from team |
-| ChangeTeamBusinessUnit | Change team’s BU |
-| GetSecurityRolesByTeamId | List roles assigned to a team |
+| AssignRoleToTeam | Assign role to team |
+| RemoveRoleFromTeam | Remove role from team |
+| ChangeTeamBU | Change team’s BU |
+| GetRolesByTeamId | List roles assigned to a team |
 
 ### Security Management
 
 | Tool Name | Description |
 | --- | --- |
-| GetEntityPrivilegesBySecurityRoleId | Privileges a role has on a specific entity |
-| GetAllPrivilegesBySecurityRoleId | All privileges for a role |
-| ListSecurityRolesByEntityPrivilegeId | Roles having a specific privilege ID |
+| GetEntityPrivByRoleId | Privileges a role has on a specific entity |
+| GetAllPrivByRoleId | All privileges for a role |
+| ListRolesByPrivId | Roles having a specific privilege ID |
 
 ### Data Management
 
 | Tool Name | Description |
 | --- | --- |
-| ExecuteFetchXmlQuery | Run a FetchXML query (supports paging-cookie) |
-| ExecuteWebApiRequest | Execute raw Dataverse Web API requests |
+| ExecuteFetchXml | Run a FetchXML query (supports paging-cookie) |
+| ExecuteWebApi | Execute raw Dataverse Web API requests |
 | CreateRecord | Create a record (Web API) |
 | UpdateRecord | Update by ID (Web API) |
 | UpsertRecord | Upsert using alternate keys (Web API) |
@@ -253,7 +256,7 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | ListAllEntities | List all entities |
 | GetEntityMetadataDetails | Full metadata (entity, attributes, relationships) |
 | GetOptionSetValuesForEntityField | OptionSet values for a field |
-| FindGlobalOptionSetLogicalNameUsingKeyword | Find global OptionSets |
+| FindGlobalOptionSet | Find global OptionSets |
 | GetGlobalOptionSetValues | Values of a global OptionSet |
 | ListAllGlobalOptionSets | List all global OptionSets |
 | GetEntityPrivileges | Privileges defined on an entity |
@@ -262,8 +265,8 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 
 | Tool Name | Description |
 | --- | --- |
-| GetPluginTraceLogsByPluginName | Plugin trace logs by type name (with paging) |
-| GetPluginTraceLogsByCorrelationId | Plugin trace logs by correlation ID (with paging) |
+| GetPluginTracesByName | Plugin trace logs by type name (with paging) |
+| GetPluginTracesByCorrId | Plugin trace logs by correlation ID (with paging) |
 
 
 

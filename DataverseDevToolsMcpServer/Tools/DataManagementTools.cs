@@ -25,7 +25,7 @@ namespace DataverseDevToolsMcpServer.Tools
 
 
         [McpServerTool, Description("Execute/Run a FetchXml query. If paging-cookie attribute is present, its value should have correct XML escaping")]
-        public async Task<string> ExecuteFetchXmlQuery(
+        public async Task<string> ExecuteFetchXml(
             ServiceClient serviceClient,
             [Description("Fetch XML query to execute/run. If paging-cookie attribute is present, its value should have correct XML escaping")] string fetchXml
             //[Description("Page Number")] int pageNumber=1,
@@ -99,7 +99,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Execute a Dataverse/Dynamics 365 Web API request and return the response.")]
-        public async Task<string> ExecuteWebApiRequest(
+        public async Task<string> ExecuteWebApi(
             ServiceClient serviceClient,
             [Description("HTTP Method (GET, POST, PATCH, DELETE)")] string httpMethod,
             [Description(@"Web API request URL (relative to the service root URL). 
