@@ -2,6 +2,7 @@
 bin/
 obj/
 out/
+nupkg/
 
 # User-specific files
 *.user

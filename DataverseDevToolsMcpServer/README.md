@@ -88,7 +88,7 @@ Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):
 }
 ```
 
-- Start the MCP Server.
+
 
 Usage: Open Copilot Chat in VS Code and ask to use the Dataverse tools; the client will discover the server automatically.
 
@@ -137,58 +137,6 @@ If running from source instead of the global tool, use:
 - Args: `run --project C:/Projects/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer.csproj --environmentUrl https://yourorg.crm.dynamics.com`
 
 Once added, start a new chat and invoke Dataverse operations in natural language; Claude will call the server tools under the hood.
-
-## Sample prompts
-
-Use natural-language prompts in your MCP client; the client will map them to tool calls.
-
-### User Management
-
-- "What is my current Dataverse user and business unit?"
-- "Find the user ‘Jane Doe’ and show her queues and teams."
-- "List security roles for the user Jane Doe."
-- "Assign Basic User security role to the user Jane Doe."
-- "Remove Basic User security role from the user Jane Doe."
-- "Move user Jane Doe to business unit Sales."
-- "Add the user Jane Doe to team Super Squad."
-- "Remove the user Jane Doe from team Super Squad."
-- "Add the user Jane Doe to the  Super Squad queue."
-- "Remove the user Jane Doe from Super Squad queue."
-
-### Team Management
-- "Assign Basic User security role to the Super Squad Team."
-- "Remove Basic User security role from the Super Squad Team."
-- "Change Business Unit of Super Squad team to Service business unit"
-
-### Security Management
-
-- "What privileges does Basic User security role has on the ‘account’ table."
-- "Show all privileges for role Basic User."
-- "Which security roles have read privilege on account table and at what depth?"
-- "Compare the privieleges between Basic User and Support user security role."
-
-### Data Management
-
-- "Execute this FetchXML query: <paste FetchXML>."
-- "Execute the Dataverse Web API: <paste Web API Details>"
-- "Create a new account using Web API with this JSON payload."
-- "Update contact record of Jane Doe with this JSON payload."
-- "Upsert contact record of Jane Doe using alternate keys (new_key='ACME') with this payload."
-- "Delete record contact record of Jane Doe."
-
-### Entity Metadata
-
-- "Find tables containing the keyword ‘invoice’."
-- "Get full metadata for the ‘account’ table."
-- "List OptionSet values for field ‘statuscode’ on entity ‘incident’."
-- "Show the privileges defined on the ‘contact’ entity."
-- "List all global OptionSets."
-- "Get option values of the global optionset Rating."
-
-### Troubleshooting
-
-- "Get plugin trace logs for the plugin ‘Contoso.Plugins.AccountPreCreate’."
-- "Get plugin trace logs for correlation ID ‘aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee’."
 
 ## Tools overview
 
@@ -265,7 +213,45 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | GetPluginTraceLogsByPluginName | Plugin trace logs by type name (with paging) |
 | GetPluginTraceLogsByCorrelationId | Plugin trace logs by correlation ID (with paging) |
 
+## Sample prompts
 
+Use natural-language prompts in your MCP client; the client will map them to tool calls.
+
+### User Management
+
+- “What is my current Dataverse user and business unit?”
+- “Find the user ‘Jane Doe’ and show her queues and teams.”
+- “Search users whose name contains ‘Doe’, page 1 with 10 per page.”
+- “List security roles for user ID 00000000-0000-0000-0000-000000000000.”
+- “Add user 00000000-0000-0000-0000-000000000000 to team 00000000-0000-0000-0000-000000000001.”
+- “Move user 00000000-0000-0000-0000-000000000000 to business unit 00000000-0000-0000-0000-000000000002.”
+
+### Security Management
+
+- “For role 00000000-0000-0000-0000-000000000010, list its privileges on the ‘account’ table.”
+- “Show all privileges for role 00000000-0000-0000-0000-000000000010.”
+- “Which roles (root BU) include privilege ID 00000000-0000-0000-0000-000000000099 and at what depth?”
+
+### Data Management
+
+- “Execute this FetchXML and give me the first page of 10 records: <paste FetchXML>.”
+- “Create a new account using Web API with this JSON payload.”
+- “PATCH contact 00000000-0000-0000-0000-0000000000AA in entity set contacts with this JSON.”
+- “Upsert a record in entity set new_widgets using alternate keys (new_key='ACME') with this payload.”
+- “Delete record 00000000-0000-0000-0000-0000000000BB from entity set incidents.”
+
+### Entity Metadata
+
+- “Find tables containing the keyword ‘invoice’.”
+- “Get full metadata for the ‘account’ table.”
+- “List OptionSet values for field ‘statuscode’ on entity ‘incident’.”
+- “List all global OptionSets.”
+- “Show the privileges defined on the ‘contact’ entity.”
+
+### Troubleshooting
+
+- “Get plugin trace logs for type name containing ‘Contoso.Plugins.AccountPreCreate’ (page 1).”
+- “Get plugin trace logs for correlation ID ‘aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee’.”
 
 ## Notes
 
