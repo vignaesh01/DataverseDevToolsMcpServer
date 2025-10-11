@@ -1,0 +1,21 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/draft/2025-07-09/server.json",
+  "description": "A Model Context Protocol (MCP) server exposing ready-to-use Dataverse tools for user and security administration, data operations, metadata exploration, and troubleshooting.",
+  "name": "io.github.vignaesh01/DataverseDevToolsMcpServer",
+  "packages": [
+    {
+      "registry_name": "nuget",
+      "name": "DataverseDevToolsMcpServer",
+      "version": "1.0.1",
+      "package_arguments": ["--environmentUrl", "<your environment URL here>"],
+      "environment_variables": []
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/vignaesh01/DataverseDevToolsMcpServer",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "1.0.1"
+  }
+}

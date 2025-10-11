@@ -5,19 +5,23 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+     <!-- Set up the NuGet package to be an MCP server -->
     <PackAsTool>true</PackAsTool>
+    <PackageType>McpServer</PackageType>
+
     <ToolCommandName>dataversedevtoolsmcpserver</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>vignaesh01.dataversedevtoolsmcpserver</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Vignaesh Ram A</Authors>
     <Company>vignaesh01@gmail.com</Company>
     <Product>Dataverse Dev Tools MCP Server</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <PackageTags>dataverse;mcp;dynamics365;powerplatform;ai</PackageTags>
+	  <PackageTags>AI; MCP; server; stdio; dataverse; dynamics365; powerplatform</PackageTags>
 	  <RepositoryUrl>https://github.com/vignaesh01/DataverseDevToolsMcpServer</RepositoryUrl>
 	  <RepositoryType>git</RepositoryType>
+    <Description>A Model Context Protocol (MCP) server exposing ready-to-use Dataverse tools for user and security administration, data operations, metadata exploration, and troubleshooting.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".mcp\server.json" Pack="true" PackagePath="/.mcp/">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="README.md" Pack="true" PackagePath="">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -29,7 +29,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get details of the current logged in user")]
-        public static async Task<string> GetCurrentUserInfo(ServiceClient serviceClient)
+        public static async Task<string> GetCurrentUser(ServiceClient serviceClient)
         {
             var response = (WhoAmIResponse)await serviceClient.ExecuteAsync(new WhoAmIRequest());
             Guid userId = response.UserId;
@@ -350,7 +350,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get the security roles assigned to a user by user id (Guid)")]
-        public async Task<string> GetUserSecurityRoles(ServiceClient serviceClient,
+        public async Task<string> GetUserRoles(ServiceClient serviceClient,
             [Description("User Id (Guid) of the user")] string userId)
         {
             if (!Guid.TryParse(userId, out Guid userGuid))
@@ -420,7 +420,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get the Business Unit details by name")]
-        public async Task<string> GetBusinessUnitByName(ServiceClient serviceClient,
+        public async Task<string> GetBUByName(ServiceClient serviceClient,
             [Description("Name of the Business Unit")] string businessUnitName)
         {
             var query = new Microsoft.Xrm.Sdk.Query.QueryExpression("businessunit")
@@ -453,7 +453,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Search Business Unit details by keyword")]
-        public async Task<string> SearchBusinessUnitsByKeyword(ServiceClient serviceClient,
+        public async Task<string> SearchBUByKeyword(ServiceClient serviceClient,
             [Description("Keyword to search in name of Business Units")] string keyword,
             [Description("Page Number")] int pageNumber = 1,
             [Description("Pagination Cookie")] string pagingCookie = null,
@@ -515,7 +515,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get the Root Business Unit details")]
-        public async Task<string> GetRootBusinessUnit(ServiceClient serviceClient)
+        public async Task<string> GetRootBU(ServiceClient serviceClient)
         {
             try
             {
@@ -560,7 +560,7 @@ namespace DataverseDevToolsMcpServer.Tools
         @"Get security role details by name. 
         If a business unit id is not available, get the role details for Root Business Unit. 
         GetRootBusinessUnit() MCP Tool can be used to get Root Business Unit details")]
-        public async Task<string> GetSecurityRoleByNameAndBusinessUnit(ServiceClient serviceClient,
+        public async Task<string> GetRoleByNameAndBU(ServiceClient serviceClient,
             [Description("Name of the Security Role")] string roleName,
             [Description("Business Unit Id (Guid). Default value is the Root Business Unit ID (Guid)")] string businessUnitId)
         {
@@ -606,7 +606,7 @@ namespace DataverseDevToolsMcpServer.Tools
         @"Search security role details by keyword. 
         If a business unit id is not available, get the role details for Root Business Unit. 
         GetRootBusinessUnit() MCP Tool can be used to get Root Business Unit details")]
-        public async Task<string> SearchSecurityRolesByKeywordAndBusinessUnit(ServiceClient serviceClient,
+        public async Task<string> SearchRolesByKeywordAndBU(ServiceClient serviceClient,
             [Description("Keyword to search in name of Security Roles")] string keyword,
             [Description("Business Unit Id (Guid). Default value is the Root Business Unit ID (Guid)")] string businessUnitId,
             [Description("Page Number")] int pageNumber = 1,
@@ -672,7 +672,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description(@"Assign security role to user based on the user's business unit")]
-        public async Task<string> AssignSecurityRoleToUser(ServiceClient serviceClient,
+        public async Task<string> AssignRoleToUser(ServiceClient serviceClient,
             [Description("Security Role Id based on the business unit of the user")] string roleId,
             [Description("User Id (Guid)")] string userId)
         {
@@ -709,7 +709,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description(@"Remove security role from a user based on the user's business unit")]
-        public async Task<string> RemoveSecurityRoleFromUser(ServiceClient serviceClient,
+        public async Task<string> RemoveRoleFromUser(ServiceClient serviceClient,
             [Description("Security Role Id based on the business unit of the user")] string roleId,
             [Description("User Id (Guid)")] string userId)
         {
@@ -743,7 +743,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Change Business Unit of the user")]
-        public async Task<string> ChangeUserBusinessUnit(ServiceClient serviceClient,
+        public async Task<string> ChangeUserBU(ServiceClient serviceClient,
             [Description("User Id (Guid) of the user")] string userId,
             [Description("Business Unit Id (Guid) to which the user should be moved")] string businessUnitId)
         {
@@ -1118,7 +1118,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description(@"Assign security role to a Team based on the Team's business unit")]
-        public async Task<string> AssignSecurityRoleToTeam(ServiceClient serviceClient,
+        public async Task<string> AssignRoleToTeam(ServiceClient serviceClient,
             [Description("Security Role Id based on the business unit of the Team")] string roleId,
             [Description("Team Id (Guid)")] string teamId)
         {
@@ -1152,7 +1152,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description(@"Remove security role from a Team based on the team's business unit")]
-        public async Task<string> RemoveSecurityRoleFromTeam(ServiceClient serviceClient,
+        public async Task<string> RemoveRoleFromTeam(ServiceClient serviceClient,
             [Description("Security Role Id based on the business unit of the Team")] string roleId,
             [Description("Team Id (Guid)")] string teamId)
         {
@@ -1186,7 +1186,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Change Business Unit of the Team")]
-        public async Task<string> ChangeTeamBusinessUnit(ServiceClient serviceClient,
+        public async Task<string> ChangeTeamBU(ServiceClient serviceClient,
             [Description("Team Id (Guid) of the Team")] string teamId,
             [Description("Business Unit Id (Guid) to which the Team should be moved")] string businessUnitId)
         {
@@ -1218,7 +1218,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get the security roles assigned to a team by team id (Guid)")]
-        public async Task<string> GetSecurityRolesByTeamId(ServiceClient serviceClient,
+        public async Task<string> GetRolesByTeamId(ServiceClient serviceClient,
             [Description("Team Id (Guid)")] string teamId)
         {
             if (!Guid.TryParse(teamId, out Guid teamGuid))
