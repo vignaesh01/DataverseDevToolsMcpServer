@@ -231,7 +231,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Find logical name of Global Optionset using keyword")]
-        public async Task<string> FindGlobalOptionSetLogicalNameUsingKeyword(ServiceClient serviceClient,
+        public async Task<string> FindGlobalOptionSet(ServiceClient serviceClient,
             [Description("Keyword to search for Global Optionset")] string keyword)
         {
             try

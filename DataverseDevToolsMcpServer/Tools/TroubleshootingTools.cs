@@ -23,7 +23,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get Plugin Trace Logs for a plugin by name")]
-        public async Task<string> GetPluginTraceLogsByPluginName(ServiceClient serviceClient,
+        public async Task<string> GetPluginTracesByName(ServiceClient serviceClient,
             [Description("Plugin Class Name")] string pluginClassName,
             [Description("Page Number")] int pageNumber = 1,
             [Description("Pagination Cookie")] string pagingCookie = null,
@@ -86,7 +86,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get Plugin Trace Logs for a plugin by correlation id")]
-        public async Task<string> GetPluginTraceLogsByCorrelationId(ServiceClient serviceClient,
+        public async Task<string> GetPluginTracesByCorrId(ServiceClient serviceClient,
             [Description("Correlation Id")] string correlationId,
             [Description("Page Number")] int pageNumber = 1,
             [Description("Pagination Cookie")] string pagingCookie = null,

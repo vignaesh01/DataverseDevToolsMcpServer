@@ -19,17 +19,17 @@ using System.Threading.Tasks;
 namespace DataverseDevToolsMcpServer.Tools
 {
     [McpServerToolType]
-    public class SecurityManagement
+    public class SecurityManagementTools
     {
-        private readonly ILogger<SecurityManagement> _logger;
-        public SecurityManagement(ILogger<SecurityManagement> logger)
+        private readonly ILogger<SecurityManagementTools> _logger;
+        public SecurityManagementTools(ILogger<SecurityManagementTools> logger)
         {
             _logger = logger;
         }
 
 
         [McpServerTool, Description("Get all the privileges/permissions a security role has on an entity using the security role id (Guid)")]
-        public async Task<string> GetEntityPrivilegesBySecurityRoleId(ServiceClient serviceClient,
+        public async Task<string> GetEntityPrivByRoleId(ServiceClient serviceClient,
            [Description("Role Id (Guid) of the security role")] string roleId,
            [Description("Entity/Table logical name")] string entityLogicalName)
         {
@@ -90,7 +90,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("Get all the privileges/permissions a security role has using the security role id (guid)")]
-        public async Task<string> GetAllPrivilegesBySecurityRoleId(ServiceClient serviceClient,
+        public async Task<string> GetAllPrivByRoleId(ServiceClient serviceClient,
            [Description("Role Id (Guid) of the security role")] string roleId)
         {
             try
@@ -172,7 +172,7 @@ namespace DataverseDevToolsMcpServer.Tools
         }
 
         [McpServerTool, Description("List all the security roles having a specific privilege on an entity/table using privilege id (guid)")]
-        public async Task<string> ListSecurityRolesByEntityPrivilegeId(ServiceClient serviceClient,
+        public async Task<string> ListRolesByPrivId(ServiceClient serviceClient,
            [Description("Privilege Id (Guid) of the entity privilege")] string privilegeId)
         {
             try
