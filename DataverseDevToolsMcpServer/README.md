@@ -9,16 +9,9 @@ A Model Context Protocol (MCP) server exposing ready-to-use Dataverse tools for 
 - Permissions in Dataverse to perform the requested operations
 - For plugin trace logs, ensure Plugin Trace Log is enabled in the environment
 
-## Install (global .NET tool)
+## Install as global .NET tool
 
-- Install:
-  - dotnet tool install -g DataverseDevToolsMcpServer
-- Update:
-  - dotnet tool update -g DataverseDevToolsMcpServer
-- Uninstall:
-  - dotnet tool uninstall -g DataverseDevToolsMcpServer
-- Verify:
-  - dotnet tool list -g
+dotnet tool install --global vignaesh01.dataversedevtoolsmcpserver
 
 Note: The executable command name is the tool command published with the package. If unsure, check with dotnet tool list -g.
 
@@ -165,7 +158,7 @@ Use natural-language prompts in your MCP client; the client will map them to too
 
 ### Security Management
 
-- "What privileges does Basic User security role has on the ‘account’ table."
+- "What privileges does Basic User security role has on the ‘account’ table?"
 - "Show all privileges for role Basic User."
 - "Which security roles have read privilege on account table and at what depth?"
 - "Compare the privieleges between Basic User and Support user security role."
@@ -173,7 +166,9 @@ Use natural-language prompts in your MCP client; the client will map them to too
 ### Data Management
 
 - "Execute this FetchXML query: <paste FetchXML>."
-- "Execute the Dataverse Web API: <paste Web API Details>"
+- "Execute the Dataverse Web API: <paste Web API Details>."
+- "Generate a FetchXML query to get all the Opportunities where account type is premium."
+- "Generate a Web API Odata query to get all the Opportunities where account type is premium."
 - "Create a new account using Web API with this JSON payload."
 - "Update contact record of Jane Doe with this JSON payload."
 - "Upsert contact record of Jane Doe using alternate keys (new_key='ACME') with this payload."
@@ -183,6 +178,7 @@ Use natural-language prompts in your MCP client; the client will map them to too
 
 - "Find tables containing the keyword ‘invoice’."
 - "Get full metadata for the ‘account’ table."
+- "What is the logical name of the client type field in account table?"
 - "List OptionSet values for field ‘statuscode’ on entity ‘incident’."
 - "Show the privileges defined on the ‘contact’ entity."
 - "List all global OptionSets."
@@ -268,7 +264,13 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | GetPluginTracesByName | Plugin trace logs by type name (with paging) |
 | GetPluginTracesByCorrId | Plugin trace logs by correlation ID (with paging) |
 
-
+## Manage .Net Tool
+- Update:
+  - dotnet tool update -g vignaesh01.dataversedevtoolsmcpserver
+- Uninstall:
+  - dotnet tool uninstall -g vignaesh01.dataversedevtoolsmcpserver
+- Verify:
+  - dotnet tool list -g
 
 ## Notes
 

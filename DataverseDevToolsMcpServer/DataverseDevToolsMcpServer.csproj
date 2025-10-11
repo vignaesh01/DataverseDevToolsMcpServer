@@ -13,7 +13,7 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>vignaesh01.dataversedevtoolsmcpserver</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>Vignaesh Ram A</Authors>
     <Company>vignaesh01@gmail.com</Company>
     <Product>Dataverse Dev Tools MCP Server</Product>
