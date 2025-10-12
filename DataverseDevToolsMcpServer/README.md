@@ -23,19 +23,19 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
 
 ### VS Code (GitHub Copilot Chat)
 
-Prerequisites:
+**Prerequisites:**
 - Latest VS Code
 - GitHub Copilot and GitHub Copilot Chat extensions installed
 - MCP support enabled in Copilot Chat (Preview/Experimental in some builds).VS Code MCP setting should be set as "chat.mcp.discovery.enabled": true. Refer: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
 
-Configure the server via `mcp.json`:
+**Configure the server via `mcp.json`:**
 
 - In VS Code: open View > Command Palette and run "MCP: Open User Configuration" to open/edit your `mcp.json`.
 
 - Windows path (alternative): `%APPDATA%/Code/User/mcp.json` (for example: `C:/Users/<you>/AppData/Roaming/Code/User/mcp.json`).
 
 
-Using the Global Tool (Recommended):
+**Using the Global Tool (Recommended):**
 
 ```json
 {
@@ -47,6 +47,27 @@ Using the Global Tool (Recommended):
         "--environmentUrl",
         "https://yourorg.crm.dynamics.com"
       ]
+    }
+  }
+}
+```
+**For Corporate Networks behind a proxy:**
+Use Authenticated/Unauthenticated proxy address as appropriate:
+
+```json
+{
+  "servers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dataversedevtoolsmcpserver",
+      "args": [
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com"
+      ],
+      "env": {
+        "HTTP_PROXY": "http://yourproxy:8080",
+        "HTTPS_PROXY": "http://yourproxy:8080"
+      }
     }
   }
 }
@@ -78,13 +99,13 @@ Usage: Open Copilot Chat in VS Code and ask to use the Dataverse tools; the clie
 
 ### Visual Studio (GitHub Copilot Chat)
 
-Prerequisites:
+**Prerequisites:**
 - Visual Studio 2022 17.10 or later
 - GitHub Copilot and Copilot Chat installed
 - MCP features enabled (Preview/Experimental), if required by your VS version. 
 - Refer : https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=vs-2022#configuration-example-with-a-github-mcp-server
 
-Configuration options (depending on your VS build):
+**Configuration options (depending on your VS build):**
 The following walkthrough requires version 17.14.9 or later.
 - Create a new file: <SOLUTIONDIR>\.mcp.json or %USERPROFILE%\.mcp.json. We recommend that you use Visual Studio to edit this file so that its JSON schema is automatically applied.
 - Paste the following contents into the .mcp.json file:
@@ -110,7 +131,7 @@ The following walkthrough requires version 17.14.9 or later.
 
 ### Claude Desktop
 
-Prerequisites:
+**Prerequisites:**
 - If you have not already done so, download and install Claude desktop from here.
 - Launch Claude desktop and navigate to File -> Settings
 - Select Developer & Edit Config
