@@ -1,6 +1,7 @@
 ﻿using DataverseDevToolsMcpServer.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.PowerPlatform.Dataverse.Client;
+using Microsoft.Xrm.Sdk;
 using ModelContextProtocol.Server;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,37 @@ namespace DataverseDevToolsMcpServer.Tools
                     return $"No plugin trace logs found for {pluginClassName}";
                 }
 
-                result += string.Join("\n", JsonSerializer.Serialize(response.Entities));
+                List<PluginTraceLog> pluginTraceLogs = new List<PluginTraceLog>();
+                foreach (Entity ptl in response.Entities)
+                {
+                    pluginTraceLogs.Add(new PluginTraceLog
+                    {
+                        configuration = ptl.GetAttributeValue<string>("configuration"),
+                        correlationId = ptl.GetAttributeValue<Guid?>("correlationid"),
+                        createdbyId = ptl.GetAttributeValue<EntityReference>("createdby")?.Id,
+                        createdByName = ptl.GetAttributeValue<EntityReference>("createdby")?.Name,
+                        createdOn = ptl.GetAttributeValue<DateTime?>("createdon"),
+                        depth = ptl.GetAttributeValue<int?>("depth"),
+                        exceptionDetails = ptl.GetAttributeValue<string>("exceptiondetails"),
+                        isSystemCreated = ptl.GetAttributeValue<bool?>("issystemcreated"),
+                        messageBlock = ptl.GetAttributeValue<string>("messageblock"),
+                        messageName = ptl.GetAttributeValue<string>("messagename"),
+                        mode = ptl.GetAttributeValue<OptionSetValue?>("mode")?.Value,
+                        modeName = ptl.FormattedValues.Contains("mode") ? ptl.FormattedValues["mode"] : null,
+                        operationType = ptl.GetAttributeValue<OptionSetValue?>("operationtype")?.Value,
+                        operationTypeName = ptl.FormattedValues.Contains("operationtype") ? ptl.FormattedValues["operationtype"] : null,
+                        performanceExecutionDuration = ptl.GetAttributeValue<int?>("performanceexecutionduration"),
+                        pluginStepId = ptl.GetAttributeValue<Guid?>("pluginstepid"),
+                        pluginTraceLogId = ptl.GetAttributeValue<Guid?>("plugintracelogid"),
+                        primaryEntity = ptl.GetAttributeValue<string>("primaryentity"),
+                        profile = ptl.GetAttributeValue<string>("profile"),
+                        requestId = ptl.GetAttributeValue<Guid?>("requestid"),
+                        secureConfiguration = ptl.GetAttributeValue<string>("secureconfiguration"),
+                        typeName = ptl.GetAttributeValue<string>("typename")
+                    });
+                }
+
+                result += string.Join("\n", JsonSerializer.Serialize(pluginTraceLogs));
 
 
                 if (response.MoreRecords)
@@ -73,8 +104,12 @@ namespace DataverseDevToolsMcpServer.Tools
                     var nextPagingCookie = response.PagingCookie;
                     result += $"\nMore records are available. To fetch the next page, use Page Number: {nextPageNumber} and Paging Cookie: {nextPagingCookie}";
                 }
+                else
+                {
+                    result += "\nNo more records available.";
+                }
 
-                return result;
+                    return result;
 
             }
             catch (Exception ex)
@@ -125,7 +160,39 @@ namespace DataverseDevToolsMcpServer.Tools
                 {
                     return $"No plugin trace logs found for Correlation Id: {correlationId}";
                 }
-                result += string.Join("\n", JsonSerializer.Serialize(response.Entities));
+                
+                List<PluginTraceLog> pluginTraceLogs = new List<PluginTraceLog>();
+                foreach (Entity ptl in response.Entities)
+                {
+                    pluginTraceLogs.Add(new PluginTraceLog
+                    {
+                        configuration = ptl.GetAttributeValue<string>("configuration"),
+                        correlationId = ptl.GetAttributeValue<Guid?>("correlationid"),
+                        createdbyId = ptl.GetAttributeValue<EntityReference>("createdby")?.Id,
+                        createdByName = ptl.GetAttributeValue<EntityReference>("createdby")?.Name,
+                        createdOn = ptl.GetAttributeValue<DateTime?>("createdon"),
+                        depth = ptl.GetAttributeValue<int?>("depth"),
+                        exceptionDetails = ptl.GetAttributeValue<string>("exceptiondetails"),
+                        isSystemCreated = ptl.GetAttributeValue<bool?>("issystemcreated"),
+                        messageBlock = ptl.GetAttributeValue<string>("messageblock"),
+                        messageName = ptl.GetAttributeValue<string>("messagename"),
+                        mode = ptl.GetAttributeValue<OptionSetValue?>("mode")?.Value,
+                        modeName = ptl.FormattedValues.Contains("mode") ? ptl.FormattedValues["mode"] : null,
+                        operationType = ptl.GetAttributeValue<OptionSetValue?>("operationtype")?.Value,
+                        operationTypeName = ptl.FormattedValues.Contains("operationtype") ? ptl.FormattedValues["operationtype"] : null,
+                        performanceExecutionDuration = ptl.GetAttributeValue<int?>("performanceexecutionduration"),
+                        pluginStepId = ptl.GetAttributeValue<Guid?>("pluginstepid"),
+                        pluginTraceLogId = ptl.GetAttributeValue<Guid?>("plugintracelogid"),
+                        primaryEntity = ptl.GetAttributeValue<string>("primaryentity"),
+                        profile = ptl.GetAttributeValue<string>("profile"),
+                        requestId = ptl.GetAttributeValue<Guid?>("requestid"),
+                        secureConfiguration = ptl.GetAttributeValue<string>("secureconfiguration"),
+                        typeName = ptl.GetAttributeValue<string>("typename")
+                    });
+                }
+
+
+                result += string.Join("\n", JsonSerializer.Serialize(pluginTraceLogs));
 
                 if (response.MoreRecords)
                 {
@@ -133,7 +200,11 @@ namespace DataverseDevToolsMcpServer.Tools
                     var nextPagingCookie = response.PagingCookie;
                     result += $"\nMore records are available. To fetch the next page, use Page Number: {nextPageNumber} and Paging Cookie: {nextPagingCookie}";
                 }
-                return result;
+                else
+                {
+                    result += "\nNo more records available.";
+                }
+                    return result;
             }
             catch (Exception ex)
             {
