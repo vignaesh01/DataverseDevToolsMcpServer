@@ -11,7 +11,9 @@ A Model Context Protocol (MCP) server exposing ready-to-use Dataverse tools for 
 
 ## Install as global .NET tool
 
+```
 dotnet tool install --global vignaesh01.dataversedevtoolsmcpserver
+```
 
 Note: The executable command name is the tool command published with the package. If unsure, check with dotnet tool list -g.
 
