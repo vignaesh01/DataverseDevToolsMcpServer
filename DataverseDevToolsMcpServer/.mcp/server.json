@@ -6,7 +6,7 @@
     {
       "registry_name": "nuget",
       "name": "DataverseDevToolsMcpServer",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "package_arguments": ["--environmentUrl", "<your environment URL here>"],
       "environment_variables": []
     }
@@ -16,6 +16,6 @@
     "source": "github"
   },
   "version_detail": {
-    "version": "1.0.3"
+    "version": "1.0.4"
   }
 }
