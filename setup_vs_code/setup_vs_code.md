@@ -74,10 +74,10 @@ For Corporate Proxy Network
 Once you have added an MCP server, you can use the tools it provides in agent mode.
 
 To use MCP tools in agent mode:
-
+![Step 3](./step_3.png)
 - Open the Chat view (Ctrl+Alt+I), and select Agent mode from the dropdown.
 
-![Step 3](./step_3.png)
+
 
 - Select the Tools button to view the list of available tools. Select the dvmcp tools.
 
@@ -88,5 +88,9 @@ To use MCP tools in agent mode:
 ![Step 5](./step_5.png)
 
 - Dataverse DevTools MCP Server is ready to use.
+
+- Try a sample prompt: Get my user details in dataverse.
+
+- Copilot asks for permission to use a tool that the MCP server made available to it. Select Allow with the scope that you want to proceed with.
 
 **Note: If the agent is not able to pick up the MCP Server tools, mention "dataverse" or "dvmcp" in your prompt.**
