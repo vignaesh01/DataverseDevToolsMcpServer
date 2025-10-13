@@ -1,5 +1,17 @@
 # Setup Dataverse DevTools MCP Server in Visual Studio
 
+## Prerequisites
+
+- .NET 8.0 SDK or later
+- Install as global .NET tool
+
+```
+dotnet tool install --global vignaesh01.dataversedevtoolsmcpserver
+
+```
+
+## Steps
+
 - Create a new .mcp.json file in the path (if not already present):  %USERPROFILE%\\.mcp.json. We recommend that you use Visual Studio to edit this file so that its JSON schema is automatically applied.
 
 - Paste the following contents into the .mcp.json file. Save the file.
