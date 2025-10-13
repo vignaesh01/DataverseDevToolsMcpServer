@@ -17,9 +17,8 @@ dotnet tool install --global vignaesh01.dataversedevtoolsmcpserver
 
 Note: The executable command name is the tool command published with the package. If unsure, check with dotnet tool list -g.
 
-## Setup
 
-## Set up in MCP clients
+## Setup in MCP clients
 
 Use the server from your favorite MCP-enabled client. Below are quick setups for VS Code, Visual Studio, and Claude on Windows.
 
