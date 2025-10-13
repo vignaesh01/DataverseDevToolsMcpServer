@@ -30,14 +30,13 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
 - GitHub Copilot and GitHub Copilot Chat extensions installed
 - MCP support enabled in Copilot Chat (Preview/Experimental in some builds).VS Code MCP setting should be set as "chat.mcp.discovery.enabled": true. Refer: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
 
-**Configure the server via `mcp.json`:**
+**Step-by-Step Setup with Screenshots:**
 
-- In VS Code: open View > Command Palette and run "MCP: Open User Configuration" to open/edit your `mcp.json`.
-
-- Windows path (alternative): `%APPDATA%/Code/User/mcp.json` (for example: `C:/Users/<you>/AppData/Roaming/Code/User/mcp.json`).
+- Go to : [Setup in VS Code](setup_vs_code/setup_vs_code.md)
 
 
-**Using the Global Tool (Recommended):**
+**mcp.json - using the Global Tool (Recommended)**
+
 
 ```json
 {
@@ -53,8 +52,8 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
   }
 }
 ```
-**For Corporate Networks behind a proxy:**
-Use Authenticated/Unauthenticated proxy address as appropriate:
+**mcp.json - For Corporate Networks behind a proxy**
+- Use Authenticated/Unauthenticated proxy address as appropriate:
 
 ```json
 {
@@ -66,16 +65,16 @@ Use Authenticated/Unauthenticated proxy address as appropriate:
         "--environmentUrl",
         "https://yourorg.crm.dynamics.com"
       ],
-      "env": {
-        "HTTP_PROXY": "http://yourproxy:8080",
-        "HTTPS_PROXY": "http://yourproxy:8080"
-      }
+      "env":{
+          "HTTP_PROXY": "http://<username@domain.com>:<password>@<proxy.domain.com>:8080",
+          "HTTPS_PROXY": "http://<username@domain.com>:<password>@<proxy.domain.com>:8080"
+        }
     }
   }
 }
 ```
 
-Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):
+**Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):**
 
 ```json
 {
@@ -97,7 +96,7 @@ Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):
 
 - Start the MCP Server.
 
-Usage: Open Copilot Chat in VS Code and ask to use the Dataverse tools; the client will discover the server automatically.
+Usage: Open Copilot Chat in Agent mode and ask to use the Dataverse tools or dvmcp tools; the client will discover the server automatically.
 
 ### Visual Studio (GitHub Copilot Chat)
 
