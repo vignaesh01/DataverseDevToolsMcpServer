@@ -27,7 +27,6 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
 **Prerequisites:**
 - Latest VS Code
 - GitHub Copilot and GitHub Copilot Chat extensions installed
-- MCP support enabled in Copilot Chat (Preview/Experimental in some builds).VS Code MCP setting should be set as "chat.mcp.discovery.enabled": true. Refer: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
 
 **Step-by-Step instructions with Screenshots:**
 
