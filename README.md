@@ -30,7 +30,7 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
 - GitHub Copilot and GitHub Copilot Chat extensions installed
 - MCP support enabled in Copilot Chat (Preview/Experimental in some builds).VS Code MCP setting should be set as "chat.mcp.discovery.enabled": true. Refer: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
 
-**Step-by-Step Setup with Screenshots:**
+**Step-by-Step instructions with Screenshots:**
 
 - Go to : [Setup in VS Code](setup_vs_code/setup_vs_code.md)
 
@@ -106,29 +106,9 @@ Usage: Open Copilot Chat in Agent mode and ask to use the Dataverse tools or dvm
 - MCP features enabled (Preview/Experimental), if required by your VS version. 
 - Refer : https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=vs-2022#configuration-example-with-a-github-mcp-server
 
-**Configuration options (depending on your VS build):**
-The following walkthrough requires version 17.14.9 or later.
-- Create a new file: <SOLUTIONDIR>\.mcp.json or %USERPROFILE%\.mcp.json. We recommend that you use Visual Studio to edit this file so that its JSON schema is automatically applied.
-- Paste the following contents into the .mcp.json file:
+**Step-by-Step instructions with Screenshots:**
 
-```json
-{
-  "servers": {
-    "dvmcp": {
-      "type": "stdio",
-      "command": "dataversedevtoolsmcpserver",
-      "args": [
-        "--environmentUrl",
-        "https://yourorg.crm.dynamics.com"
-      ]
-    }
-  }
-}
-```
-
-- In Visual Studio, select the Ask arrow in the GitHub Copilot Chat window, and then select Agent.
-- Select the tools that you want to use by clicking on toolset wrench icon.
-- After configuration, open Copilot Chat in Visual Studio and the Dataverse server should appear as an available toolset.
+- Go to : [Setup in Visual Studio](setup_vs/setup_vs.md)
 
 ### Claude Desktop
 
