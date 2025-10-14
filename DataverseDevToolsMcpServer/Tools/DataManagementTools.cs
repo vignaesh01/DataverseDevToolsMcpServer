@@ -46,9 +46,15 @@ namespace DataverseDevToolsMcpServer.Tools
                 // Inject paging attributes into FetchXml
                 //var fetchXmlWithPaging = DataManagementHelper.InjectPagingIntoFetchXml(fetchXml, pageNumber, recordsPerPage, pagingCookie);
                 string fetchXmlWithPaging = null;
-                if (fetchXml.Contains("paging-cookie"))
+                
+                // Check if FetchXml already has paging-cookie, count, or page attributes
+                bool hasPagingAttributes = fetchXml.Contains("paging-cookie") || 
+                                          fetchXml.Contains("count=") || 
+                                          fetchXml.Contains("page=");
+                
+                if (hasPagingAttributes)
                 {
-                    fetchXmlWithPaging = fetchXml; // Use as is if paging-cookie is already present
+                    fetchXmlWithPaging = fetchXml; // Use as is if paging attributes are already present
                 }
                 else
                 {
