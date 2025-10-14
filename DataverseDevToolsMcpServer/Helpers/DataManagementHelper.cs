@@ -46,72 +46,7 @@ namespace DataverseDevToolsMcpServer.Helpers
 
             return entityCollection;
         }
-
-        public static string InjectPagingIntoFetchXml(string fetchXml, int pageNumber, int recordsPerPage, string pagingCookie)
-        {
-            // Find the <fetch ...> tag
-            var fetchTagStart = fetchXml.IndexOf("<fetch", StringComparison.OrdinalIgnoreCase);
-            var fetchTagEnd = fetchXml.IndexOf('>', fetchTagStart);
-            if (fetchTagStart == -1 || fetchTagEnd == -1)
-                throw new ArgumentException("Invalid FetchXml format.", nameof(fetchXml));
-
-            var fetchTag = fetchXml.Substring(fetchTagStart, fetchTagEnd - fetchTagStart);
-
-            // Check if 'top' attribute exists - cannot use paging with top
-            if (System.Text.RegularExpressions.Regex.IsMatch(
-                fetchTag,
-                @"\stop\s*=\s*['""][^'""]*['""]",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase))
-            {
-                // Return original FetchXml without modification if top attribute is present
-                return fetchXml;
-            }
-
-            // Check if 'aggregate' attribute is true - cannot use paging with aggregate
-            var aggregateMatch = System.Text.RegularExpressions.Regex.Match(
-                fetchTag,
-                @"\saggregate\s*=\s*['""]([^'""]*)['""]",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-            if (aggregateMatch.Success && aggregateMatch.Groups[1].Value.Equals("true", StringComparison.OrdinalIgnoreCase))
-            {
-                // Return original FetchXml without modification if aggregate is true
-                return fetchXml;
-            }
-
-            // Check if paging attributes already exist - don't override them
-            var hasCount = System.Text.RegularExpressions.Regex.IsMatch(
-                fetchTag,
-                @"\scount\s*=\s*['""][^'""]*['""]",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-            var hasPage = System.Text.RegularExpressions.Regex.IsMatch(
-                fetchTag,
-                @"\spage\s*=\s*['""][^'""]*['""]",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-            var hasPagingCookie = System.Text.RegularExpressions.Regex.IsMatch(
-                fetchTag,
-                @"\spaging-cookie\s*=\s*['""][^'""]*['""]",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-            // If any paging attributes exist, return original FetchXml without modification
-            if (hasCount || hasPage || hasPagingCookie)
-            {
-                return fetchXml;
-            }
-
-            // Build paging attributes
-            var pagingAttributes = $"count='{recordsPerPage}' page='{pageNumber}'";
-            if (!string.IsNullOrEmpty(pagingCookie))
-            {
-                pagingAttributes += $" paging-cookie='{System.Security.SecurityElement.Escape(pagingCookie)}'";
-            }
-
-            var beforeTag = fetchXml.Substring(0, fetchTagEnd);
-            var afterTag = fetchXml.Substring(fetchTagEnd);
-
-            var newFetchTag = beforeTag + " " + pagingAttributes + afterTag;
-            return newFetchTag;
-        }
-
+     
         public static string CreateXml(string xml, string cookie, int page, int count)
         {
             StringReader stringReader = new StringReader(xml);
