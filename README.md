@@ -50,6 +50,38 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
   }
 }
 ```
+
+**mcp.json - Using Client Credentials Authentication (Service Principal)**
+
+For automated scenarios or when interactive login is not possible, you can use client credentials authentication with an Azure AD application:
+
+```json
+{
+  "servers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dataversedevtoolsmcpserver",
+      "args": [
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com",
+        "--tenantId",
+        "your-tenant-id",
+        "--clientId",
+        "your-client-id",
+        "--clientSecret",
+        "your-client-secret"
+      ]
+    }
+  }
+}
+```
+
+**Note:** To use client credentials authentication, you need to:
+1. Register an application in Azure Active Directory
+2. Create a client secret for the application
+3. Add the application user in Dataverse with appropriate security roles
+4. Use the tenant ID, client ID (application ID), and client secret in the configuration
+
 **mcp.json - For Corporate Networks behind a proxy**
 - Use Authenticated/Unauthenticated proxy address as appropriate:
 
@@ -92,6 +124,32 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
 }
 ```
 
+**Sample `mcp.json` with Client Credentials (For Explorers using cloned repository):**
+
+```json
+{
+  "servers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "C:/Projects/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer.csproj",
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com",
+        "--tenantId",
+        "your-tenant-id",
+        "--clientId",
+        "your-client-id",
+        "--clientSecret",
+        "your-client-secret"
+      ]
+    }
+  }
+}
+```
+
 - Start the MCP Server.
 
 Usage: Open Copilot Chat in Agent mode and ask to use the Dataverse tools or dvmcp tools; the client will discover the server automatically.
@@ -126,6 +184,29 @@ Usage: Open Copilot Chat in Agent mode and ask to use the Dataverse tools or dvm
       "args": [
         "--environmentUrl",
         "https://yourorg.crm.dynamics.com"
+      ]
+    }
+  }
+}
+```
+
+**With Client Credentials:**
+
+```json
+{
+  "mcpServers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dataversedevtoolsmcpserver",
+      "args": [
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com",
+        "--tenantId",
+        "your-tenant-id",
+        "--clientId",
+        "your-client-id",
+        "--clientSecret",
+        "your-client-secret"
       ]
     }
   }
