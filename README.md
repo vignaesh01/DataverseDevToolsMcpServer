@@ -184,6 +184,14 @@ Use natural-language prompts in your MCP client; the client will map them to too
 - "List all global OptionSets."
 - "Get option values of the global optionset Rating."
 
+
+### Custom Actions & Custom APIs
+
+- "Find custom actions with keyword 'qualify'."
+- "Get metadata for custom action 'new_MyCustomAction'."
+- "Find custom APIs containing 'calculate' in the name."
+- "Get full metadata with parameters for custom API 'contoso_CalculateTotal'."
+- "Show me how to call the custom API 'new_ProcessOrder' via Web API."
 ### Troubleshooting
 
 - "Get plugin trace logs for the plugin ‘Contoso.Plugins.AccountPreCreate’."
@@ -257,6 +265,15 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | ListAllGlobalOptionSets | List all global OptionSets |
 | GetEntityPrivileges | Privileges defined on an entity |
 
+### Custom Actions & Custom APIs
+
+| Tool Name | Description |
+| --- | --- |
+| FindCustomActionUsingKeyword | Find custom actions by keyword |
+| GetCustomActionMetadata | Get custom action metadata with Web API usage info |
+| FindCustomApiUsingKeyword | Find custom APIs by keyword |
+| GetCustomApiMetadata | Get custom API metadata with request/response parameters and Web API usage info |
+
 ### Troubleshooting
 
 | Tool Name | Description |
@@ -283,4 +300,5 @@ Below are the tools exposed by the server, grouped by category. Each item links 
   - Security Management: [DataverseDevToolsMcpServer/Tools/SecurityManagementTools.cs](DataverseDevToolsMcpServer/Tools/SecurityManagementTools.cs)
   - Data Management: [DataverseDevToolsMcpServer/Tools/DataManagementTools.cs](DataverseDevToolsMcpServer/Tools/DataManagementTools.cs)
   - Entity Metadata: [DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs](DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs)
+  - Custom Actions & Custom APIs: [DataverseDevToolsMcpServer/Tools/CustomActionApiTools.cs](DataverseDevToolsMcpServer/Tools/CustomActionApiTools.cs)
   - Troubleshooting: [DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs](DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs)
