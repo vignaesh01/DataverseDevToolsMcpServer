@@ -17,9 +17,8 @@ dotnet tool install --global vignaesh01.dataversedevtoolsmcpserver
 
 Note: The executable command name is the tool command published with the package. If unsure, check with dotnet tool list -g.
 
-## Setup
 
-## Set up in MCP clients
+## Setup in MCP clients
 
 Use the server from your favorite MCP-enabled client. Below are quick setups for VS Code, Visual Studio, and Claude on Windows.
 
@@ -28,16 +27,14 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
 **Prerequisites:**
 - Latest VS Code
 - GitHub Copilot and GitHub Copilot Chat extensions installed
-- MCP support enabled in Copilot Chat (Preview/Experimental in some builds).VS Code MCP setting should be set as "chat.mcp.discovery.enabled": true. Refer: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
 
-**Configure the server via `mcp.json`:**
+**Step-by-Step instructions with Screenshots:**
 
-- In VS Code: open View > Command Palette and run "MCP: Open User Configuration" to open/edit your `mcp.json`.
-
-- Windows path (alternative): `%APPDATA%/Code/User/mcp.json` (for example: `C:/Users/<you>/AppData/Roaming/Code/User/mcp.json`).
+- Go to : [Setup in VS Code](setup_vs_code/setup_vs_code.md)
 
 
-**Using the Global Tool (Recommended):**
+**mcp.json - using the Global Tool (Recommended)**
+
 
 ```json
 {
@@ -53,8 +50,40 @@ Use the server from your favorite MCP-enabled client. Below are quick setups for
   }
 }
 ```
-**For Corporate Networks behind a proxy:**
-Use Authenticated/Unauthenticated proxy address as appropriate:
+
+**mcp.json - Using Client Credentials Authentication (Service Principal)**
+
+For automated scenarios or when interactive login is not possible, you can use client credentials authentication with an Azure AD application:
+
+```json
+{
+  "servers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dataversedevtoolsmcpserver",
+      "args": [
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com",
+        "--tenantId",
+        "your-tenant-id",
+        "--clientId",
+        "your-client-id",
+        "--clientSecret",
+        "your-client-secret"
+      ]
+    }
+  }
+}
+```
+
+**Note:** To use client credentials authentication, you need to:
+1. Register an application in Azure Active Directory
+2. Create a client secret for the application
+3. Add the application user in Dataverse with appropriate security roles
+4. Use the tenant ID, client ID (application ID), and client secret in the configuration
+
+**mcp.json - For Corporate Networks behind a proxy**
+- Use Authenticated/Unauthenticated proxy address as appropriate:
 
 ```json
 {
@@ -66,16 +95,16 @@ Use Authenticated/Unauthenticated proxy address as appropriate:
         "--environmentUrl",
         "https://yourorg.crm.dynamics.com"
       ],
-      "env": {
-        "HTTP_PROXY": "http://yourproxy:8080",
-        "HTTPS_PROXY": "http://yourproxy:8080"
-      }
+      "env":{
+          "HTTP_PROXY": "http://<username@domain.com>:<password>@<proxy.domain.com>:8080",
+          "HTTPS_PROXY": "http://<username@domain.com>:<password>@<proxy.domain.com>:8080"
+        }
     }
   }
 }
 ```
 
-Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):
+**Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):**
 
 ```json
 {
@@ -95,9 +124,35 @@ Sample `mcp.json` if you have cloned the GitHub Repository (For Explorers):
 }
 ```
 
+**Sample `mcp.json` with Client Credentials (For Explorers using cloned repository):**
+
+```json
+{
+  "servers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "C:/Projects/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer/DataverseDevToolsMcpServer.csproj",
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com",
+        "--tenantId",
+        "your-tenant-id",
+        "--clientId",
+        "your-client-id",
+        "--clientSecret",
+        "your-client-secret"
+      ]
+    }
+  }
+}
+```
+
 - Start the MCP Server.
 
-Usage: Open Copilot Chat in VS Code and ask to use the Dataverse tools; the client will discover the server automatically.
+Usage: Open Copilot Chat in Agent mode and ask to use the Dataverse tools or dvmcp tools; the client will discover the server automatically.
 
 ### Visual Studio (GitHub Copilot Chat)
 
@@ -107,29 +162,9 @@ Usage: Open Copilot Chat in VS Code and ask to use the Dataverse tools; the clie
 - MCP features enabled (Preview/Experimental), if required by your VS version. 
 - Refer : https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=vs-2022#configuration-example-with-a-github-mcp-server
 
-**Configuration options (depending on your VS build):**
-The following walkthrough requires version 17.14.9 or later.
-- Create a new file: <SOLUTIONDIR>\.mcp.json or %USERPROFILE%\.mcp.json. We recommend that you use Visual Studio to edit this file so that its JSON schema is automatically applied.
-- Paste the following contents into the .mcp.json file:
+**Step-by-Step instructions with Screenshots:**
 
-```json
-{
-  "servers": {
-    "dvmcp": {
-      "type": "stdio",
-      "command": "dataversedevtoolsmcpserver",
-      "args": [
-        "--environmentUrl",
-        "https://yourorg.crm.dynamics.com"
-      ]
-    }
-  }
-}
-```
-
-- In Visual Studio, select the Ask arrow in the GitHub Copilot Chat window, and then select Agent.
-- Select the tools that you want to use by clicking on toolset wrench icon.
-- After configuration, open Copilot Chat in Visual Studio and the Dataverse server should appear as an available toolset.
+- Go to : [Setup in Visual Studio](setup_vs/setup_vs.md)
 
 ### Claude Desktop
 
@@ -149,6 +184,29 @@ The following walkthrough requires version 17.14.9 or later.
       "args": [
         "--environmentUrl",
         "https://yourorg.crm.dynamics.com"
+      ]
+    }
+  }
+}
+```
+
+**With Client Credentials:**
+
+```json
+{
+  "mcpServers": {
+    "dvmcp": {
+      "type": "stdio",
+      "command": "dataversedevtoolsmcpserver",
+      "args": [
+        "--environmentUrl",
+        "https://yourorg.crm.dynamics.com",
+        "--tenantId",
+        "your-tenant-id",
+        "--clientId",
+        "your-client-id",
+        "--clientSecret",
+        "your-client-secret"
       ]
     }
   }
@@ -207,6 +265,14 @@ Use natural-language prompts in your MCP client; the client will map them to too
 - "List all global OptionSets."
 - "Get option values of the global optionset Rating."
 
+
+### Custom Actions & Custom APIs
+
+- "Find custom actions with keyword 'qualify'."
+- "Get metadata for custom action 'new_MyCustomAction'."
+- "Find custom APIs containing 'calculate' in the name."
+- "Get full metadata with parameters for custom API 'contoso_CalculateTotal'."
+- "Show me how to call the custom API 'new_ProcessOrder' via Web API."
 ### Troubleshooting
 
 - "Get plugin trace logs for the plugin ‘Contoso.Plugins.AccountPreCreate’."
@@ -280,6 +346,15 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | ListAllGlobalOptionSets | List all global OptionSets |
 | GetEntityPrivileges | Privileges defined on an entity |
 
+### Custom Actions & Custom APIs
+
+| Tool Name | Description |
+| --- | --- |
+| FindCustomActionUsingKeyword | Find custom actions by keyword |
+| GetCustomActionMetadata | Get custom action metadata with Web API usage info |
+| FindCustomApiUsingKeyword | Find custom APIs by keyword |
+| GetCustomApiMetadata | Get custom API metadata with request/response parameters and Web API usage info |
+
 ### Troubleshooting
 
 | Tool Name | Description |
@@ -306,4 +381,5 @@ Below are the tools exposed by the server, grouped by category. Each item links 
   - Security Management: [DataverseDevToolsMcpServer/Tools/SecurityManagementTools.cs](DataverseDevToolsMcpServer/Tools/SecurityManagementTools.cs)
   - Data Management: [DataverseDevToolsMcpServer/Tools/DataManagementTools.cs](DataverseDevToolsMcpServer/Tools/DataManagementTools.cs)
   - Entity Metadata: [DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs](DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs)
+  - Custom Actions & Custom APIs: [DataverseDevToolsMcpServer/Tools/CustomActionApiTools.cs](DataverseDevToolsMcpServer/Tools/CustomActionApiTools.cs)
   - Troubleshooting: [DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs](DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs)
