@@ -174,6 +174,213 @@ namespace DataverseDevToolsMcpServer.Tools
 
         }
 
+        [McpServerTool, Description("Get Entity/Table metadata information using logical name of the entity/table")]
+        public async Task<string> GetEntityMetadata(ServiceClient serviceClient,
+            [Description("Entity/Table Logical Name")] string entityLogicalName)
+        {
+            try
+            {
+                // Prepare the request to retrieve entity metadata
+                var request = new RetrieveEntityRequest
+                {
+                    EntityFilters = EntityFilters.Entity,
+                    LogicalName = entityLogicalName,
+                    RetrieveAsIfPublished = true
+                };
+                // Execute the request
+                var response = (RetrieveEntityResponse)await serviceClient.ExecuteAsync(request);
+                // Get the entity metadata from the response
+                var entityMetadata = response.EntityMetadata;
+                if (entityMetadata == null)
+                {
+                    return $"No metadata found for entity: {entityLogicalName}";
+                }
+                // Serialize the metadata to JSON for easier reading
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = false,
+                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+                };
+
+                string jsonMetadata = JsonSerializer.Serialize(entityMetadata, options);
+
+                return jsonMetadata;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving entity metadata.");
+                return $"Error: {ex.Message}";
+            }
+        }
+
+        [McpServerTool, Description("Get attributes/fields/columns metadata information for an entity/table in a paginated fashion")]
+        public async Task<string> GetFields(ServiceClient serviceClient,
+            [Description("Entity/Table Logical Name")] string entityLogicalName,
+            [Description("Page Number")] int pageNumber = 1,
+            [Description("Number of records to be returned per page")] int numOfRecordsPerPage = 50)
+        {
+            try
+            {
+                // Prepare the request to retrieve entity metadata with attributes
+                var request = new RetrieveEntityRequest
+                {
+                    EntityFilters = EntityFilters.Attributes,
+                    LogicalName = entityLogicalName,
+                    RetrieveAsIfPublished = true
+                };
+                // Execute the request
+                var response = (RetrieveEntityResponse)await serviceClient.ExecuteAsync(request);
+                // Get the entity metadata from the response
+                var entityMetadata = response.EntityMetadata;
+                if (entityMetadata == null)
+                {
+                    return $"No metadata found for entity: {entityLogicalName}";
+                }
+
+                if (entityMetadata.Attributes == null || entityMetadata.Attributes.Length == 0)
+                {
+                    return $"No attributes found for entity: {entityLogicalName}";
+                }
+
+                // Calculate pagination
+                int totalRecords = entityMetadata.Attributes.Length;
+                int skip = (pageNumber - 1) * numOfRecordsPerPage;
+                
+                if (skip >= totalRecords)
+                {
+                    return $"Page {pageNumber} is out of range. Total pages available: {Math.Ceiling((double)totalRecords / numOfRecordsPerPage)}";
+                }
+
+                var pagedAttributes = entityMetadata.Attributes
+                    .Skip(skip)
+                    .Take(numOfRecordsPerPage)
+                    .ToArray();
+
+                // Serialize the attributes to JSON for easier reading
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = false,
+                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+                };
+
+                string jsonAttributes = JsonSerializer.Serialize(pagedAttributes, options);
+
+                // Check if more records are available
+                bool hasMoreRecords = (skip + numOfRecordsPerPage) < totalRecords;
+                if (hasMoreRecords)
+                {
+                    int nextPageNumber = pageNumber + 1;
+                    jsonAttributes += $"\n\nMore records are available. To fetch the next page, use Page Number: {nextPageNumber}";
+                }
+
+                return jsonAttributes;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving entity attributes.");
+                return $"Error: {ex.Message}";
+            }
+        }
+
+        [McpServerTool, Description("Get relationships metadata information for an entity/table in a paginated fashion")]
+        public async Task<string> GetRelationships(ServiceClient serviceClient,
+            [Description("Entity/Table Logical Name")] string entityLogicalName,
+            [Description("Page Number")] int pageNumber = 1,
+            [Description("Number of records to be returned per page")] int numOfRecordsPerPage = 50)
+        {
+            try
+            {
+                // Prepare the request to retrieve entity metadata with relationships
+                var request = new RetrieveEntityRequest
+                {
+                    EntityFilters = EntityFilters.Relationships,
+                    LogicalName = entityLogicalName,
+                    RetrieveAsIfPublished = true
+                };
+                // Execute the request
+                var response = (RetrieveEntityResponse)await serviceClient.ExecuteAsync(request);
+                // Get the entity metadata from the response
+                var entityMetadata = response.EntityMetadata;
+                if (entityMetadata == null)
+                {
+                    return $"No metadata found for entity: {entityLogicalName}";
+                }
+
+                // Combine all relationship types
+                var allRelationships = new List<object>();
+                
+                if (entityMetadata.OneToManyRelationships != null)
+                {
+                    allRelationships.AddRange(entityMetadata.OneToManyRelationships.Select(r => new
+                    {
+                        Type = "OneToMany",
+                        Relationship = r
+                    }));
+                }
+                
+                if (entityMetadata.ManyToOneRelationships != null)
+                {
+                    allRelationships.AddRange(entityMetadata.ManyToOneRelationships.Select(r => new
+                    {
+                        Type = "ManyToOne",
+                        Relationship = r
+                    }));
+                }
+                
+                if (entityMetadata.ManyToManyRelationships != null)
+                {
+                    allRelationships.AddRange(entityMetadata.ManyToManyRelationships.Select(r => new
+                    {
+                        Type = "ManyToMany",
+                        Relationship = r
+                    }));
+                }
+
+                if (allRelationships.Count == 0)
+                {
+                    return $"No relationships found for entity: {entityLogicalName}";
+                }
+
+                // Calculate pagination
+                int totalRecords = allRelationships.Count;
+                int skip = (pageNumber - 1) * numOfRecordsPerPage;
+                
+                if (skip >= totalRecords)
+                {
+                    return $"Page {pageNumber} is out of range. Total pages available: {Math.Ceiling((double)totalRecords / numOfRecordsPerPage)}";
+                }
+
+                var pagedRelationships = allRelationships
+                    .Skip(skip)
+                    .Take(numOfRecordsPerPage)
+                    .ToList();
+
+                // Serialize the relationships to JSON for easier reading
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = false,
+                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+                };
+
+                string jsonRelationships = JsonSerializer.Serialize(pagedRelationships, options);
+
+                // Check if more records are available
+                bool hasMoreRecords = (skip + numOfRecordsPerPage) < totalRecords;
+                if (hasMoreRecords)
+                {
+                    int nextPageNumber = pageNumber + 1;
+                    jsonRelationships += $"\n\nMore records are available. To fetch the next page, use Page Number: {nextPageNumber}";
+                }
+
+                return jsonRelationships;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving entity relationships.");
+                return $"Error: {ex.Message}";
+            }
+        }
+
         [McpServerTool, Description("Get Optionset Values and labels for an Optionset/Picklist type field/column using entity/table logical name")]
         public async Task<string> GetOptionSetValuesForEntityField(ServiceClient serviceClient,
             [Description("Entity/Table Logical Name")] string entityLogicalName,

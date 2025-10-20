@@ -259,6 +259,11 @@ Use natural-language prompts in your MCP client; the client will map them to too
 
 - "Find tables containing the keyword ‘invoice’."
 - "Get full metadata for the ‘account’ table."
+- "Get entity metadata for the 'account' table."
+- "Get fields for the 'account' table."
+- "Get fields for the 'account' table, page 2 with 25 records per page."
+- "Get relationships for the 'contact' table."
+- "Get relationships for the 'contact' table, page 2."
 - "What is the logical name of the client type field in account table?"
 - "List OptionSet values for field ‘statuscode’ on entity ‘incident’."
 - "Show the privileges defined on the ‘contact’ entity."
@@ -340,6 +345,9 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | FindEntityLogicalNameUsingKeyword | Find entities by keyword |
 | ListAllEntities | List all entities |
 | GetEntityMetadataDetails | Full metadata (entity, attributes, relationships) |
+| GetEntityMetadata | Entity metadata information only |
+| GetFields | Attributes/fields metadata with pagination |
+| GetRelationships | Relationships metadata with pagination |
 | GetOptionSetValuesForEntityField | OptionSet values for a field |
 | FindGlobalOptionSet | Find global OptionSets |
 | GetGlobalOptionSetValues | Values of a global OptionSet |
