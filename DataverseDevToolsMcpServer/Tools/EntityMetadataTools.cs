@@ -134,45 +134,46 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description("Get Entity/Table Metadata Details like Entity/Table properties, attributes/fields/columns, relationships using logical name of the entity/table")]
-        public async Task<string> GetEntityMetadataDetails(ServiceClient serviceClient,
-            [Description("Entity/Table Logical Name")] string entityLogicalName)
-        {
-            try
-            {
-                // Prepare the request to retrieve entity metadata
-                var request = new RetrieveEntityRequest
-                {
-                    EntityFilters = (EntityFilters.Entity | EntityFilters.Attributes | EntityFilters.Relationships),
-                    LogicalName = entityLogicalName,
-                    RetrieveAsIfPublished = true
-                };
-                // Execute the request
-                var response = (RetrieveEntityResponse)await serviceClient.ExecuteAsync(request);
-                // Get the entity metadata from the response
-                var entityMetadata = response.EntityMetadata;
-                if (entityMetadata == null)
-                {
-                    return $"No metadata found for entity: {entityLogicalName}";
-                }
-                // Serialize the metadata to JSON for easier reading
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = false,
-                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
-                };
+        // Commented out - replaced by GetEntityMetadata, GetFields, and GetRelationships methods for better pagination support
+        //[McpServerTool, Description("Get Entity/Table Metadata Details like Entity/Table properties, attributes/fields/columns, relationships using logical name of the entity/table")]
+        //public async Task<string> GetEntityMetadataDetails(ServiceClient serviceClient,
+        //    [Description("Entity/Table Logical Name")] string entityLogicalName)
+        //{
+        //    try
+        //    {
+        //        // Prepare the request to retrieve entity metadata
+        //        var request = new RetrieveEntityRequest
+        //        {
+        //            EntityFilters = (EntityFilters.Entity | EntityFilters.Attributes | EntityFilters.Relationships),
+        //            LogicalName = entityLogicalName,
+        //            RetrieveAsIfPublished = true
+        //        };
+        //        // Execute the request
+        //        var response = (RetrieveEntityResponse)await serviceClient.ExecuteAsync(request);
+        //        // Get the entity metadata from the response
+        //        var entityMetadata = response.EntityMetadata;
+        //        if (entityMetadata == null)
+        //        {
+        //            return $"No metadata found for entity: {entityLogicalName}";
+        //        }
+        //        // Serialize the metadata to JSON for easier reading
+        //        var options = new JsonSerializerOptions
+        //        {
+        //            WriteIndented = false,
+        //            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        //        };
 
-                string jsonMetadata = JsonSerializer.Serialize(entityMetadata, options);
+        //        string jsonMetadata = JsonSerializer.Serialize(entityMetadata, options);
 
-                return jsonMetadata;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving entity metadata.");
-                return $"Error: {ex.Message}";
-            }
+        //        return jsonMetadata;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error retrieving entity metadata.");
+        //        return $"Error: {ex.Message}";
+        //    }
 
-        }
+        //}
 
         [McpServerTool, Description("Get Entity/Table metadata information using logical name of the entity/table")]
         public async Task<string> GetEntityMetadata(ServiceClient serviceClient,
