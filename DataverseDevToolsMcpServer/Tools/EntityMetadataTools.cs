@@ -213,14 +213,22 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description("Get attributes/fields/columns metadata information for an entity/table in a paginated fashion")]
+        [McpServerTool, Description("Get attributes/fields/columns metadata information for an entity/table in a paginated fashion. IMPORTANT: Maximum 50 records per page. Do not exceed this limit.")]
         public async Task<string> GetFields(ServiceClient serviceClient,
             [Description("Entity/Table Logical Name")] string entityLogicalName,
             [Description("Page Number")] int pageNumber = 1,
-            [Description("Number of records to be returned per page")] int numOfRecordsPerPage = 50)
+            [Description("Number of records to be returned per page. Maximum allowed is 50. Do not set this value higher than 50.")] int numOfRecordsPerPage = 50)
         {
             try
             {
+                // Enforce maximum limit of 50 records per page
+                bool exceededLimit = false;
+                if (numOfRecordsPerPage > 50)
+                {
+                    exceededLimit = true;
+                    numOfRecordsPerPage = 50;
+                }
+
                 // Prepare the request to retrieve entity metadata with attributes
                 var request = new RetrieveEntityRequest
                 {
@@ -265,6 +273,12 @@ namespace DataverseDevToolsMcpServer.Tools
 
                 string jsonAttributes = JsonSerializer.Serialize(pagedAttributes, options);
 
+                // Add warning if limit was exceeded
+                if (exceededLimit)
+                {
+                    jsonAttributes = "WARNING: Number of records per page was set to more than 50, which is not allowed. Returning only 50 records. Please do not set numOfRecordsPerPage to more than 50 in future calls.\n\n" + jsonAttributes;
+                }
+
                 // Check if more records are available
                 bool hasMoreRecords = (skip + numOfRecordsPerPage) < totalRecords;
                 if (hasMoreRecords)
@@ -282,14 +296,22 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description("Get relationships metadata information for an entity/table in a paginated fashion")]
+        [McpServerTool, Description("Get relationships metadata information for an entity/table in a paginated fashion. IMPORTANT: Maximum 50 records per page. Do not exceed this limit.")]
         public async Task<string> GetRelationships(ServiceClient serviceClient,
             [Description("Entity/Table Logical Name")] string entityLogicalName,
             [Description("Page Number")] int pageNumber = 1,
-            [Description("Number of records to be returned per page")] int numOfRecordsPerPage = 50)
+            [Description("Number of records to be returned per page. Maximum allowed is 50. Do not set this value higher than 50.")] int numOfRecordsPerPage = 50)
         {
             try
             {
+                // Enforce maximum limit of 50 records per page
+                bool exceededLimit = false;
+                if (numOfRecordsPerPage > 50)
+                {
+                    exceededLimit = true;
+                    numOfRecordsPerPage = 50;
+                }
+
                 // Prepare the request to retrieve entity metadata with relationships
                 var request = new RetrieveEntityRequest
                 {
@@ -363,6 +385,12 @@ namespace DataverseDevToolsMcpServer.Tools
                 };
 
                 string jsonRelationships = JsonSerializer.Serialize(pagedRelationships, options);
+
+                // Add warning if limit was exceeded
+                if (exceededLimit)
+                {
+                    jsonRelationships = "WARNING: Number of records per page was set to more than 50, which is not allowed. Returning only 50 records. Please do not set numOfRecordsPerPage to more than 50 in future calls.\n\n" + jsonRelationships;
+                }
 
                 // Check if more records are available
                 bool hasMoreRecords = (skip + numOfRecordsPerPage) < totalRecords;
