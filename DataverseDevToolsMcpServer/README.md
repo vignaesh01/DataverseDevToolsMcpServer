@@ -339,7 +339,9 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | --- | --- |
 | FindEntityLogicalNameUsingKeyword | Find entities by keyword |
 | ListAllEntities | List all entities |
-| GetEntityMetadataDetails | Full metadata (entity, attributes, relationships) |
+| GetEntityMetadata | Entity metadata information only |
+| GetFields | Attributes/fields metadata with pagination |
+| GetRelationships | Relationships metadata with pagination |
 | GetOptionSetValuesForEntityField | OptionSet values for a field |
 | FindGlobalOptionSet | Find global OptionSets |
 | GetGlobalOptionSetValues | Values of a global OptionSet |
