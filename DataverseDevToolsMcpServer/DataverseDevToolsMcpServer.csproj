@@ -19,8 +19,8 @@
     <Product>Dataverse Dev Tools MCP Server</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageReleaseNotes>
-        - Added Client Credentials Authentication using Client Id and Secret.
-        - Added support for Custom Actions and Custom API.
+        - Added paginated Entity metadata method to handle larger metadata.
+        - Removed unused tools.
     </PackageReleaseNotes>
 	  <PackageTags>AI; MCP; server; stdio; dataverse; dynamics365; powerplatform</PackageTags>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
