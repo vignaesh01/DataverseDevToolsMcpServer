@@ -47,7 +47,7 @@ namespace DataverseDevToolsMcpServer.Tools
             return $"Current logged in user is {result}";
         }
 
-        [McpServerTool, Description("Get user details by name")]
+        /*[McpServerTool, Description("Get user details by name")]
         public async Task<string> GetUserByName(ServiceClient serviceClient,
             [Description("FullName of the user")] string userName)
         {
@@ -81,7 +81,7 @@ namespace DataverseDevToolsMcpServer.Tools
             string result = JsonSerializer.Serialize(userObj);
 
             return $"User Details:\n {result}";
-        }
+        }*/
 
         [McpServerTool, Description("Get user details by user Id (Guid)")]
         public async Task<string> GetUserById(ServiceClient serviceClient,
@@ -419,7 +419,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description("Get the Business Unit details by name")]
+       /* [McpServerTool, Description("Get the Business Unit details by name")]
         public async Task<string> GetBUByName(ServiceClient serviceClient,
             [Description("Name of the Business Unit")] string businessUnitName)
         {
@@ -450,7 +450,7 @@ namespace DataverseDevToolsMcpServer.Tools
             };
             string result = JsonSerializer.Serialize(buObj);
             return $"Business Unit Details:\n {result}";
-        }
+        }*/
 
         [McpServerTool, Description("Search Business Unit details by keyword")]
         public async Task<string> SearchBUByKeyword(ServiceClient serviceClient,
@@ -556,7 +556,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description(
+        /*[McpServerTool, Description(
         @"Get security role details by name. 
         If a business unit id is not available, get the role details for Root Business Unit. 
         GetRootBusinessUnit() MCP Tool can be used to get Root Business Unit details")]
@@ -600,7 +600,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 return $"An error occurred: {ex.Message}";
 
             }
-        }
+        }*/
 
         [McpServerTool, Description(
         @"Search security role details by keyword. 
@@ -774,7 +774,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description("Get the queue details by name")]
+       /* [McpServerTool, Description("Get the queue details by name")]
         public async Task<string> GetQueueByName(ServiceClient serviceClient,
             [Description("Name of the Queue")] string queueName)
         {
@@ -812,7 +812,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 return $"An error occurred: {ex.Message}";
 
             }
-        }
+        }*/
 
         [McpServerTool, Description("Search queue details by keyword")]
         public async Task<string> SearchQueuesByKeyword(ServiceClient serviceClient,
@@ -949,7 +949,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description("Get team details by name")]
+        /*[McpServerTool, Description("Get team details by name")]
         public async Task<string> GetTeamByName(ServiceClient serviceClient,
             [Description("Name of the Team")] string teamName)
         {
@@ -989,7 +989,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 _logger.LogError(ex, "Error occurred while fetching team by name.");
                 return $"An error occurred: {ex.Message}";
             }
-        }
+        }*/
         [McpServerTool, Description("Search team details by keyword")]
         public async Task<string> SearchTeamsByKeyword(ServiceClient serviceClient,
             [Description("Keyword to search in name of Teams")] string keyword,

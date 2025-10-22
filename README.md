@@ -259,6 +259,11 @@ Use natural-language prompts in your MCP client; the client will map them to too
 
 - "Find tables containing the keyword ‘invoice’."
 - "Get full metadata for the ‘account’ table."
+- "Get entity metadata for the 'account' table."
+- "Get fields for the 'account' table."
+- "Get fields for the 'account' table, page 2 with 25 records per page."
+- "Get relationships for the 'contact' table."
+- "Get relationships for the 'contact' table, page 2."
 - "What is the logical name of the client type field in account table?"
 - "List OptionSet values for field ‘statuscode’ on entity ‘incident’."
 - "Show the privileges defined on the ‘contact’ entity."
@@ -287,25 +292,20 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | Tool Name | Description |
 | --- | --- |
 | GetCurrentUser | Get details of the current logged-in user |
-| GetUserByName | Get user details by full name |
 | GetUserById | Get user details by user ID |
 | SearchUsersByKeyword | Search users where fullname contains a keyword (with paging) |
 | GetUserQueues | List queues for a user (with paging) |
 | GetUserTeams | List teams for a user (with paging) |
 | GetUserRoles | List security roles for a user |
-| GetBUByName | Get BU details by name |
 | SearchBUByKeyword | Search BUs by keyword (with paging) |
 | GetRootBU | Get the root BU |
-| GetRoleByNameAndBU | Get a role by name in a specific BU |
 | SearchRolesByKeywordAndBU | Search roles by keyword in a BU (with paging) |
 | AssignRoleToUser | Assign role to user |
 | RemoveRoleFromUser | Remove role from user |
 | ChangeUserBU | Change user’s BU |
-| GetQueueByName | Get queue by name |
 | SearchQueuesByKeyword | Search queues by keyword (with paging) |
 | AddUserToQueue | Add user to queue |
 | RemoveUserFromQueue | Remove user from queue |
-| GetTeamByName | Get team by name |
 | SearchTeamsByKeyword | Search teams by keyword (with paging) |
 | AddUserToTeam | Add user to team |
 | RemoveUserFromTeam | Remove user from team |
@@ -339,7 +339,9 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | --- | --- |
 | FindEntityLogicalNameUsingKeyword | Find entities by keyword |
 | ListAllEntities | List all entities |
-| GetEntityMetadataDetails | Full metadata (entity, attributes, relationships) |
+| GetEntityMetadata | Entity metadata information only |
+| GetFields | Attributes/fields metadata with pagination |
+| GetRelationships | Relationships metadata with pagination |
 | GetOptionSetValuesForEntityField | OptionSet values for a field |
 | FindGlobalOptionSet | Find global OptionSets |
 | GetGlobalOptionSetValues | Values of a global OptionSet |
