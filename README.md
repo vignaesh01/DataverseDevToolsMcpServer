@@ -292,25 +292,20 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | Tool Name | Description |
 | --- | --- |
 | GetCurrentUser | Get details of the current logged-in user |
-| GetUserByName | Get user details by full name |
 | GetUserById | Get user details by user ID |
 | SearchUsersByKeyword | Search users where fullname contains a keyword (with paging) |
 | GetUserQueues | List queues for a user (with paging) |
 | GetUserTeams | List teams for a user (with paging) |
 | GetUserRoles | List security roles for a user |
-| GetBUByName | Get BU details by name |
 | SearchBUByKeyword | Search BUs by keyword (with paging) |
 | GetRootBU | Get the root BU |
-| GetRoleByNameAndBU | Get a role by name in a specific BU |
 | SearchRolesByKeywordAndBU | Search roles by keyword in a BU (with paging) |
 | AssignRoleToUser | Assign role to user |
 | RemoveRoleFromUser | Remove role from user |
 | ChangeUserBU | Change user’s BU |
-| GetQueueByName | Get queue by name |
 | SearchQueuesByKeyword | Search queues by keyword (with paging) |
 | AddUserToQueue | Add user to queue |
 | RemoveUserFromQueue | Remove user from queue |
-| GetTeamByName | Get team by name |
 | SearchTeamsByKeyword | Search teams by keyword (with paging) |
 | AddUserToTeam | Add user to team |
 | RemoveUserFromTeam | Remove user from team |
