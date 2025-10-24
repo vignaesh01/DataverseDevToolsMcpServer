@@ -42,6 +42,10 @@ namespace DataverseDevToolsMcpServer.Tools
                     return $"Invalid GUID format for Role Id: {roleId}";
                 }
 
+                // Retrieve the role to get its parentrootroleid
+                var role = await serviceClient.RetrieveAsync("role", roleGuid, new ColumnSet("parentrootroleid"));
+                var parentRootRoleId = role.GetAttributeValue<EntityReference>("parentrootroleid")?.Id ?? roleGuid;
+
                 // Get entity privileges (all CRUD + others)
                 var retrieveEntity = new RetrieveEntityRequest
                 {
@@ -51,13 +55,13 @@ namespace DataverseDevToolsMcpServer.Tools
                 var entityResponse = (RetrieveEntityResponse)await serviceClient.ExecuteAsync(retrieveEntity);
                 var entityPrivileges = entityResponse.EntityMetadata.Privileges;
 
-                // Get all roleprivileges for this role
+                // Get all roleprivileges for this role using parentrootroleid
                 var rolePrivQuery = new QueryExpression("roleprivileges")
                 {
                     ColumnSet = new ColumnSet("privilegeid", "privilegedepthmask"),
                     Criteria = new FilterExpression
                     {
-                        Conditions = { new ConditionExpression("roleid", ConditionOperator.Equal, roleId) }
+                        Conditions = { new ConditionExpression("roleid", ConditionOperator.Equal, parentRootRoleId) }
                     }
                 };
                 //var rolePrivileges = await serviceClient.RetrieveMultipleAsync(rolePrivQuery);
@@ -100,13 +104,18 @@ namespace DataverseDevToolsMcpServer.Tools
                 {
                     return $"Invalid GUID format for Role Id: {roleId}";
                 }
-                // Get all roleprivileges for this role
+
+                // Retrieve the role to get its parentrootroleid
+                var role = await serviceClient.RetrieveAsync("role", roleGuid, new ColumnSet("parentrootroleid"));
+                var parentRootRoleId = role.GetAttributeValue<EntityReference>("parentrootroleid")?.Id ?? roleGuid;
+
+                // Get all roleprivileges for this role using parentrootroleid
                 var rolePrivQuery = new QueryExpression("roleprivileges")
                 {
                     ColumnSet = new ColumnSet("privilegeid", "privilegedepthmask"),
                     Criteria = new FilterExpression
                     {
-                        Conditions = { new ConditionExpression("roleid", ConditionOperator.Equal, roleId) }
+                        Conditions = { new ConditionExpression("roleid", ConditionOperator.Equal, parentRootRoleId) }
                     }
                 };
                 //var rolePrivileges = await serviceClient.RetrieveMultipleAsync(rolePrivQuery);
