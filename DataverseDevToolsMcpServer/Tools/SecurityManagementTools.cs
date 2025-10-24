@@ -44,6 +44,10 @@ namespace DataverseDevToolsMcpServer.Tools
 
                 // Retrieve the role to get its parentrootroleid
                 var role = await serviceClient.RetrieveAsync("role", roleGuid, new ColumnSet("parentrootroleid"));
+                if (role == null)
+                {
+                    return $"Role not found with Id: {roleId}";
+                }
                 var parentRootRoleId = role.GetAttributeValue<EntityReference>("parentrootroleid")?.Id ?? roleGuid;
 
                 // Get entity privileges (all CRUD + others)
@@ -107,6 +111,10 @@ namespace DataverseDevToolsMcpServer.Tools
 
                 // Retrieve the role to get its parentrootroleid
                 var role = await serviceClient.RetrieveAsync("role", roleGuid, new ColumnSet("parentrootroleid"));
+                if (role == null)
+                {
+                    return $"Role not found with Id: {roleId}";
+                }
                 var parentRootRoleId = role.GetAttributeValue<EntityReference>("parentrootroleid")?.Id ?? roleGuid;
 
                 // Get all roleprivileges for this role using parentrootroleid
