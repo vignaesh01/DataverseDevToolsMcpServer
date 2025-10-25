@@ -13,14 +13,13 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>vignaesh01.dataversedevtoolsmcpserver</PackageId>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <Authors>Vignaesh Ram A</Authors>
     <Company>vignaesh01@gmail.com</Company>
     <Product>Dataverse Dev Tools MCP Server</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageReleaseNotes>
-        - Added paginated Entity metadata method to handle larger metadata.
-        - Removed unused tools.
+        - Fixed privilege query methods to use parentrootroleid for child business unit roles.
     </PackageReleaseNotes>
 	  <PackageTags>AI; MCP; server; stdio; dataverse; dynamics365; powerplatform</PackageTags>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
