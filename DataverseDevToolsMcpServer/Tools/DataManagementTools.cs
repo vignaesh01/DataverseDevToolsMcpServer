@@ -111,7 +111,7 @@ namespace DataverseDevToolsMcpServer.Tools
             [Description(@"Web API request URL (relative to the service root URL).Request url should not contain /api/data/v9.*/. 
             The path and query parameters that you wish to pass onto the Web API")] string requestUrl,
             [Description("Request body in JSON format (for POST and PATCH requests)")] string requestBody = null,
-            [Description("Additional headers")] Dictionary<String, List<String>> customHeaders = null,
+            [Description("Additional headers")] Dictionary<string, string> customHeaders = null,
             [Description("Content Type")] string contentType = "application/json"
             )
         {
@@ -123,7 +123,8 @@ namespace DataverseDevToolsMcpServer.Tools
             {
                 var method = new System.Net.Http.HttpMethod(httpMethod.ToUpper());
                 requestUrl =DataManagementHelper.CleanRequestUrl(requestUrl);
-                var response = await serviceClient.ExecuteWebRequestAsync(method, requestUrl, requestBody, customHeaders, contentType);
+                var convertedHeaders = DataManagementHelper.ConvertCustomHeaders(customHeaders);
+                var response = await serviceClient.ExecuteWebRequestAsync(method, requestUrl, requestBody, convertedHeaders, contentType);
                 if (response.IsSuccessStatusCode)
                 {
                     //append response headers to result
@@ -163,7 +164,7 @@ namespace DataverseDevToolsMcpServer.Tools
             [Description(@"Record data in JSON format. 
             Prepare the payload based on field/column type.
             For lookup columns,find the field/column schema name using entity metadata and use the <<field/column's schema name>>@odata.bind in payload")] string recordDataJson,
-            [Description("Additional headers")] Dictionary<String, List<String>> customHeaders = null,
+            [Description("Additional headers")] Dictionary<string, string> customHeaders = null,
             [Description("Content Type")] string contentType = "application/json"
             )
         {
@@ -174,7 +175,8 @@ namespace DataverseDevToolsMcpServer.Tools
             try
             {
                 //var requestUrl = $"/api/data/v9.2/{entitySetName}";
-                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("POST"), entitySetName, recordDataJson, customHeaders, contentType);
+                var convertedHeaders = DataManagementHelper.ConvertCustomHeaders(customHeaders);
+                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("POST"), entitySetName, recordDataJson, convertedHeaders, contentType);
                 if (response.IsSuccessStatusCode)
                 {
                     if (response.Headers.Contains("OData-EntityId"))
@@ -211,7 +213,7 @@ namespace DataverseDevToolsMcpServer.Tools
             [Description(@"Record data in JSON format. 
             Prepare the payload based on field/column type.
             For lookup columns,find the field/column schema name using entity metadata and use the <<field/column's schema name>>@odata.bind in payload")] string recordDataJson,
-            [Description("Additional headers")] Dictionary<String, List<String>> customHeaders = null,
+            [Description("Additional headers")] Dictionary<string, string> customHeaders = null,
             [Description("Content Type")] string contentType = "application/json"
             )
         {
@@ -224,7 +226,8 @@ namespace DataverseDevToolsMcpServer.Tools
             try
             {
                 //var requestUrl = $"/api/data/v9.2/{entitySetName}";
-                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("PATCH"), entitySetName, recordDataJson, customHeaders, contentType);
+                var convertedHeaders = DataManagementHelper.ConvertCustomHeaders(customHeaders);
+                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("PATCH"), entitySetName, recordDataJson, convertedHeaders, contentType);
                 if (response.IsSuccessStatusCode)
                 {
 
@@ -260,7 +263,7 @@ namespace DataverseDevToolsMcpServer.Tools
             [Description(@"Record data in JSON format. 
             Prepare the payload based on field/column type.
             For lookup columns,find the field/column schema name using entity metadata and use the <<field/column's schema name>>@odata.bind in payload")] string recordDataJson,
-            [Description("Additional headers")] Dictionary<String, List<String>> customHeaders = null,
+            [Description("Additional headers")] Dictionary<string, string> customHeaders = null,
             [Description("Content Type")] string contentType = "application/json"
             )
         {
@@ -274,7 +277,8 @@ namespace DataverseDevToolsMcpServer.Tools
             try
             {
                 //var requestUrl = $"/api/data/v9.2/{entitySetName}";
-                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("PATCH"), entitySetName, recordDataJson, customHeaders, contentType);
+                var convertedHeaders = DataManagementHelper.ConvertCustomHeaders(customHeaders);
+                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("PATCH"), entitySetName, recordDataJson, convertedHeaders, contentType);
                 if (response.IsSuccessStatusCode)
                 {
 
@@ -299,7 +303,7 @@ namespace DataverseDevToolsMcpServer.Tools
             ServiceClient serviceClient,
             [Description("Entity Set Name from Entity metadata")] string entitySetName,
             [Description("Record Id")] string recordId,
-            [Description("Additional headers")] Dictionary<String, List<String>> customHeaders = null,
+            [Description("Additional headers")] Dictionary<string, string> customHeaders = null,
             [Description("Content Type")] string contentType = "application/json"
             )
         {
@@ -311,7 +315,8 @@ namespace DataverseDevToolsMcpServer.Tools
             try
             {
                 //var requestUrl = $"/api/data/v9.2/{entitySetName}";
-                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("DELETE"), entitySetName, null, customHeaders, contentType);
+                var convertedHeaders = DataManagementHelper.ConvertCustomHeaders(customHeaders);
+                var response = await serviceClient.ExecuteWebRequestAsync(new System.Net.Http.HttpMethod("DELETE"), entitySetName, null, convertedHeaders, contentType);
                 if (response.IsSuccessStatusCode)
                 {
                     result = $"Record deleted successfully. Entity ID: {recordId}";

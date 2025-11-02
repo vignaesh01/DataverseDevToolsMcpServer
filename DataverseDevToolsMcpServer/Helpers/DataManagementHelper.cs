@@ -145,6 +145,21 @@ namespace DataverseDevToolsMcpServer.Helpers
             }
             return requestUrl;
         }
+
+        public static Dictionary<string, List<string>>? ConvertCustomHeaders(Dictionary<string, string>? customHeaders)
+        {
+            if (customHeaders == null)
+            {
+                return null;
+            }
+
+            var convertedHeaders = new Dictionary<string, List<string>>();
+            foreach (var header in customHeaders)
+            {
+                convertedHeaders[header.Key] = new List<string> { header.Value };
+            }
+            return convertedHeaders;
+        }
     }
 
     
