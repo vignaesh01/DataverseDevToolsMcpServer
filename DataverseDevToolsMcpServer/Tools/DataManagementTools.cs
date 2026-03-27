@@ -98,7 +98,7 @@ namespace DataverseDevToolsMcpServer.Tools
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error executing paginated FetchXml query.");
-                return $"Error executing paginated FetchXml query:{result} {ex.Message}";
+                return $"Error executing paginated FetchXml query: {result}\n{ex}";
 
             }
 
@@ -150,7 +150,7 @@ namespace DataverseDevToolsMcpServer.Tools
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error executing Web API request.");
-                return $"Error executing Web API request: {ex.Message}";
+                return $"Error executing Web API request:\n{ex}";
             }
 
         }
@@ -198,7 +198,7 @@ namespace DataverseDevToolsMcpServer.Tools
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating record.");
-                return $"Error creating record: {ex.Message}";
+                return $"Error creating record:\n{ex}";
             }
 
         }
@@ -242,8 +242,8 @@ namespace DataverseDevToolsMcpServer.Tools
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating record.");
-                return $"Error creating record: {ex.Message}";
+                _logger.LogError(ex, "Error updating record.");
+                return $"Error updating record:\n{ex}";
             }
         }
 
@@ -293,8 +293,8 @@ namespace DataverseDevToolsMcpServer.Tools
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating record.");
-                return $"Error creating record: {ex.Message}";
+                _logger.LogError(ex, "Error upserting record.");
+                return $"Error upserting record:\n{ex}";
             }
         }
 
@@ -330,7 +330,7 @@ namespace DataverseDevToolsMcpServer.Tools
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting record.");
-                return $"Error deleting record: {ex.Message}";
+                return $"Error deleting record:\n{ex}";
             }
 
         }
