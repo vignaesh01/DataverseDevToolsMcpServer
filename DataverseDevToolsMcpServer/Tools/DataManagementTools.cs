@@ -298,6 +298,96 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
+        [McpServerTool, Description(@"Associate records in Dataverse using a relationship. Supports both N:N and 1:N relationships.
+                        Requires the logical name of the primary entity, its record Id, the relationship schema name,
+                        the logical name of the related entity, and the list of related record Ids to associate.")]
+        public async Task<string> AssociateRecords(
+            ServiceClient serviceClient,
+            [Description("Logical name of the primary entity (e.g. account)")] string entityName,
+            [Description("Record Id (GUID) of the primary entity record")] string entityId,
+            [Description("Relationship schema name (e.g. accountleads_association)")] string relationshipName,
+            [Description("Logical name of the related entity (e.g. lead)")] string relatedEntityName,
+            [Description("List of related record Ids (GUIDs) to associate")] List<string> relatedEntityIds
+            )
+        {
+            if (serviceClient == null) throw new ArgumentNullException(nameof(serviceClient));
+            if (string.IsNullOrWhiteSpace(entityName)) throw new ArgumentNullException(nameof(entityName));
+            if (string.IsNullOrWhiteSpace(entityId)) throw new ArgumentNullException(nameof(entityId));
+            if (string.IsNullOrWhiteSpace(relationshipName)) throw new ArgumentNullException(nameof(relationshipName));
+            if (string.IsNullOrWhiteSpace(relatedEntityName)) throw new ArgumentNullException(nameof(relatedEntityName));
+            if (relatedEntityIds == null) throw new ArgumentNullException(nameof(relatedEntityIds));
+            if (!relatedEntityIds.Any()) throw new ArgumentException("At least one related entity Id must be provided.", nameof(relatedEntityIds));
+
+            if (!Guid.TryParse(entityId, out Guid entityGuid))
+                return $"Invalid GUID format for Entity Id: {entityId}";
+
+            try
+            {
+                var relationship = new Relationship(relationshipName);
+                var relatedEntities = new EntityReferenceCollection();
+
+                foreach (var id in relatedEntityIds)
+                {
+                    if (!Guid.TryParse(id, out Guid relatedGuid))
+                        return $"Invalid GUID format for related entity Id: {id}";
+                    relatedEntities.Add(new EntityReference(relatedEntityName, relatedGuid));
+                }
+
+                await serviceClient.AssociateAsync(entityName, entityGuid, relationship, relatedEntities);
+                return $"Records associated successfully. {relatedEntityIds.Count} record(s) associated with {entityName}({entityId}) via '{relationshipName}' relationship.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error associating records.");
+                return $"Error associating records:\n{ex}";
+            }
+        }
+
+        [McpServerTool, Description(@"Dissociate records in Dataverse using a relationship. Supports both N:N and 1:N relationships.
+                        Requires the logical name of the primary entity, its record Id, the relationship schema name,
+                        the logical name of the related entity, and the list of related record Ids to dissociate.")]
+        public async Task<string> DissociateRecords(
+            ServiceClient serviceClient,
+            [Description("Logical name of the primary entity (e.g. account)")] string entityName,
+            [Description("Record Id (GUID) of the primary entity record")] string entityId,
+            [Description("Relationship schema name (e.g. accountleads_association)")] string relationshipName,
+            [Description("Logical name of the related entity (e.g. lead)")] string relatedEntityName,
+            [Description("List of related record Ids (GUIDs) to dissociate")] List<string> relatedEntityIds
+            )
+        {
+            if (serviceClient == null) throw new ArgumentNullException(nameof(serviceClient));
+            if (string.IsNullOrWhiteSpace(entityName)) throw new ArgumentNullException(nameof(entityName));
+            if (string.IsNullOrWhiteSpace(entityId)) throw new ArgumentNullException(nameof(entityId));
+            if (string.IsNullOrWhiteSpace(relationshipName)) throw new ArgumentNullException(nameof(relationshipName));
+            if (string.IsNullOrWhiteSpace(relatedEntityName)) throw new ArgumentNullException(nameof(relatedEntityName));
+            if (relatedEntityIds == null) throw new ArgumentNullException(nameof(relatedEntityIds));
+            if (!relatedEntityIds.Any()) throw new ArgumentException("At least one related entity Id must be provided.", nameof(relatedEntityIds));
+
+            if (!Guid.TryParse(entityId, out Guid entityGuid))
+                return $"Invalid GUID format for Entity Id: {entityId}";
+
+            try
+            {
+                var relationship = new Relationship(relationshipName);
+                var relatedEntities = new EntityReferenceCollection();
+
+                foreach (var id in relatedEntityIds)
+                {
+                    if (!Guid.TryParse(id, out Guid relatedGuid))
+                        return $"Invalid GUID format for related entity Id: {id}";
+                    relatedEntities.Add(new EntityReference(relatedEntityName, relatedGuid));
+                }
+
+                await serviceClient.DisassociateAsync(entityName, entityGuid, relationship, relatedEntities);
+                return $"Records dissociated successfully. {relatedEntityIds.Count} record(s) dissociated from {entityName}({entityId}) via '{relationshipName}' relationship.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error dissociating records.");
+                return $"Error dissociating records:\n{ex}";
+            }
+        }
+
         [McpServerTool, Description(@"Delete a record in Dataverse using record Id (GUID).) This uses Dataverse/Dynamics 365 Web API.")]
         public async Task<string> DeleteRecord(
             ServiceClient serviceClient,
