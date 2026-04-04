@@ -58,7 +58,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 }
                 else
                 {
-                    fetchXmlWithPaging = DataManagementHelper.CreateXml(fetchXml, null, 1, 10);
+                    fetchXmlWithPaging = DataManagementHelper.CreateXml(fetchXml, null, 1, 50);
                 }
 
                 result += $"\nModified FetchXml with Paging:\n{fetchXmlWithPaging}\n\n";
@@ -146,6 +146,12 @@ namespace DataverseDevToolsMcpServer.Tools
                     result += $"Error: {response.StatusCode} - {response.ReasonPhrase}\n{await response.Content.ReadAsStringAsync()}";
                 }
                 return result;
+            }
+            catch (Microsoft.PowerPlatform.Dataverse.Client.Exceptions.HttpOperationException ex)
+            {
+                _logger.LogError(ex, "Error executing Web API request.");
+                var detail = ex.Response?.Content ?? ex.Message;
+                return $"Error executing Web API request:\n{detail}";
             }
             catch (Exception ex)
             {
