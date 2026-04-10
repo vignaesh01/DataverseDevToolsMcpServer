@@ -18,10 +18,10 @@ using System.Threading.Tasks;
 
 namespace DataverseDevToolsMcpServer.Tools
 {
-    [McpServerToolType]
+    //[McpServerToolType]
     public class SecurityManagementTools
     {
-        private readonly ILogger<SecurityManagementTools> _logger;
+        /*private readonly ILogger<SecurityManagementTools> _logger;
         public SecurityManagementTools(ILogger<SecurityManagementTools> logger)
         {
             _logger = logger;
@@ -252,7 +252,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 return $"Error: {ex.Message}";
 
             }
-        }
+        }*/
 
     }
 }

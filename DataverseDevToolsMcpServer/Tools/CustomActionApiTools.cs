@@ -17,7 +17,7 @@ namespace DataverseDevToolsMcpServer.Tools
     [McpServerToolType]
     public class CustomActionApiTools
     {
-        private readonly ILogger<CustomActionApiTools> _logger;
+       /* private readonly ILogger<CustomActionApiTools> _logger;
         
         public CustomActionApiTools(ILogger<CustomActionApiTools> logger)
         {
@@ -154,7 +154,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 result += "\n\nTo execute this custom action via Web API, use:\n";
                 result += $"POST {{organizationUrl}}/api/data/v9.2/{uniqueName}\n";
                 result += "Content-Type: application/json\n\n";
-                result += "Body: {{ /* input parameters as JSON */ }}\n";
+                result += "Body: {{  }}\n";
                 result += "\nNote: Parse the XAML to extract input/output parameter details if needed.";
 
                 return result;
@@ -351,7 +351,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 
                 if (api.isFunction == true)
                 {
-                    result += $"\nGET {{organizationUrl}}/api/data/v9.2/{uniqueName}(/* parameters */)";
+                    result += $"\nGET {{organizationUrl}}/api/data/v9.2/{uniqueName}()";
                 }
                 else
                 {
@@ -368,7 +368,7 @@ namespace DataverseDevToolsMcpServer.Tools
                         result += $"\nPOST {{organizationUrl}}/api/data/v9.2/{uniqueName}";
                     }
                     result += "\nContent-Type: application/json\n\n";
-                    result += "Body: { /* request parameters as JSON */ }";
+                    result += "Body: {  }";
                 }
 
                 return result;
@@ -378,6 +378,6 @@ namespace DataverseDevToolsMcpServer.Tools
                 _logger.LogError(ex, "Error retrieving custom API metadata.");
                 return $"Error: {ex.Message}";
             }
-        }
+        }*/
     }
 }

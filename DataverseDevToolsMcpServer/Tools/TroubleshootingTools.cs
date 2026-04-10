@@ -14,10 +14,10 @@ using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace DataverseDevToolsMcpServer.Tools
 {
-    [McpServerToolType]
+    //[McpServerToolType]
     public class TroubleshootingTools
     {
-        private readonly ILogger<TroubleshootingTools> _logger;
+        /*private readonly ILogger<TroubleshootingTools> _logger;
         public TroubleshootingTools(ILogger<TroubleshootingTools> logger)
         {
             _logger = logger;
@@ -211,6 +211,6 @@ namespace DataverseDevToolsMcpServer.Tools
                 _logger.LogError(ex, "Error fetching plugin trace logs for Correlation Id: {CorrelationId}", correlationId);
                 return $"Error fetching plugin trace logs: {ex.Message}";
             }
-        }
+        }*/
     }
 }

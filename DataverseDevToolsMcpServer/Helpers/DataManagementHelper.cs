@@ -118,7 +118,7 @@ namespace DataverseDevToolsMcpServer.Helpers
                 int index = requestUrl.IndexOf('/', 10); // Find the next '/' after /api/data/v9.
                 if (index != -1)
                 {
-                    requestUrl = requestUrl.Substring(index);
+                    requestUrl = requestUrl.Substring(index + 1); // +1 to skip the leading '/'
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace DataverseDevToolsMcpServer.Helpers
                 int index = requestUrl.IndexOf('/', 9); // Find the next '/' after api/data/v9.
                 if (index != -1)
                 {
-                    requestUrl = requestUrl.Substring(index);
+                    requestUrl = requestUrl.Substring(index + 1); // +1 to skip the leading '/'
                 }
                 else
                 {
@@ -138,6 +138,11 @@ namespace DataverseDevToolsMcpServer.Helpers
                 }
             }
 
+            // Strip any remaining leading slash
+            if (requestUrl.StartsWith("/"))
+            {
+                requestUrl = requestUrl.TrimStart('/');
+            }
 
             if (requestUrl.EndsWith("/"))
             {
