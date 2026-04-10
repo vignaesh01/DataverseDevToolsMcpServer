@@ -23,7 +23,7 @@ namespace DataverseDevToolsMcpServer.Tools
             _logger = logger;
         }
 
-        [McpServerTool, Description("Find Entity/Table Logical Name using keyword.")]
+        /*[McpServerTool, Description("Find Entity/Table Logical Name using keyword.")]
         public async Task<string> FindEntityLogicalNameUsingKeyword(ServiceClient serviceClient,
             [Description("Keyword to search for entity/table")] string keyword)
         {
@@ -93,9 +93,9 @@ namespace DataverseDevToolsMcpServer.Tools
                 return $"Error: {ex.Message}";
             }
 
-        }
+        }*/
 
-        [McpServerTool, Description("Get list of all entities/tables in the environment")]
+        /*[McpServerTool, Description("Get list of all entities/tables in the environment")]
         public async Task<string> ListAllEntities(ServiceClient serviceClient)
         {
             try
@@ -132,7 +132,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 _logger.LogError(ex, "Error retrieving all entities.");
                 return $"Error: {ex.Message}";
             }
-        }
+        }*/
 
         // Commented out - replaced by GetEntityMetadata, GetFields, and GetRelationships methods for better pagination support
         //[McpServerTool, Description("Get Entity/Table Metadata Details like Entity/Table properties, attributes/fields/columns, relationships using logical name of the entity/table")]
@@ -410,7 +410,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        [McpServerTool, Description("Get Optionset Values and labels for an Optionset/Picklist type field/column using entity/table logical name")]
+        /*[McpServerTool, Description("Get Optionset Values and labels for an Optionset/Picklist type field/column using entity/table logical name")]
         public async Task<string> GetOptionSetValuesForEntityField(ServiceClient serviceClient,
             [Description("Entity/Table Logical Name")] string entityLogicalName,
             [Description("Field/Column Logical Name")] string fieldLogicalName)
@@ -594,7 +594,7 @@ namespace DataverseDevToolsMcpServer.Tools
                 _logger.LogError(ex, "Error retrieving all global option sets.");
                 return $"Error: {ex.Message}";
             }
-        }
+        }*/
 
         [McpServerTool, Description("Get Entity/Table privileges/permissions using logical name of the entity/table")]
         public async Task<string> GetEntityPrivileges(ServiceClient serviceClient,

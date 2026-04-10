@@ -19,10 +19,10 @@ using System.Threading.Tasks;
 
 namespace DataverseDevToolsMcpServer.Tools
 {
-    [McpServerToolType]
+    //[McpServerToolType]
     public class UserManagementTools
     {
-        private readonly ILogger<UserManagementTools> _logger;
+        /*private readonly ILogger<UserManagementTools> _logger;
         public UserManagementTools(ILogger<UserManagementTools> logger)
         {
             this._logger = logger;
@@ -47,41 +47,7 @@ namespace DataverseDevToolsMcpServer.Tools
             return $"Current logged in user is {result}";
         }
 
-        /*[McpServerTool, Description("Get user details by name")]
-        public async Task<string> GetUserByName(ServiceClient serviceClient,
-            [Description("FullName of the user")] string userName)
-        {
-            var query = new Microsoft.Xrm.Sdk.Query.QueryExpression("systemuser")
-            {
-                ColumnSet = new Microsoft.Xrm.Sdk.Query.ColumnSet("fullname", "domainname", "businessunitid"),
-                Criteria = new Microsoft.Xrm.Sdk.Query.FilterExpression
-                {
-                    Conditions =
-                    {
-                        new Microsoft.Xrm.Sdk.Query.ConditionExpression("fullname", Microsoft.Xrm.Sdk.Query.ConditionOperator.Equal, userName)
-                    }
-                }
-            };
-            var users = await serviceClient.RetrieveMultipleAsync(query);
-            if (users.Entities.Count == 0)
-            {
-                return $"No user found with name {userName}. Do you want to search for User with the keyword {userName}?";
-            }
-            var user = users.Entities.First();
-
-            User userObj = new User
-            {
-                userId = user.Id,
-                fullName = user.GetAttributeValue<string>("fullname"),
-                domainName = user.GetAttributeValue<string>("domainname"),
-                businessUnitId = (Guid)(user.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("businessunitid")?.Id),
-                businessUnitName = user.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("businessunitid")?.Name
-            };
-
-            string result = JsonSerializer.Serialize(userObj);
-
-            return $"User Details:\n {result}";
-        }*/
+        
 
         [McpServerTool, Description("Get user details by user Id (Guid)")]
         public async Task<string> GetUserById(ServiceClient serviceClient,
@@ -419,38 +385,6 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-       /* [McpServerTool, Description("Get the Business Unit details by name")]
-        public async Task<string> GetBUByName(ServiceClient serviceClient,
-            [Description("Name of the Business Unit")] string businessUnitName)
-        {
-            var query = new Microsoft.Xrm.Sdk.Query.QueryExpression("businessunit")
-            {
-                ColumnSet = new Microsoft.Xrm.Sdk.Query.ColumnSet("name", "businessunitid", "parentbusinessunitid", "description"),
-                Criteria = new Microsoft.Xrm.Sdk.Query.FilterExpression
-                {
-                    Conditions =
-                    {
-                        new Microsoft.Xrm.Sdk.Query.ConditionExpression("name", ConditionOperator.Equal, businessUnitName)
-                    }
-                }
-            };
-            var businessUnits = await serviceClient.RetrieveMultipleAsync(query);
-            if (businessUnits.Entities.Count == 0)
-            {
-                return $"No Business Unit found with name {businessUnitName}. Do you want to search for Business Unit with the keyword {businessUnitName}?";
-            }
-            var businessUnit = businessUnits.Entities.First();
-            BusinessUnit buObj = new BusinessUnit
-            {
-                businessUnitId = businessUnit.Id,
-                name = businessUnit.GetAttributeValue<string>("name"),
-                parentBusinessUnitId = (Guid?)(businessUnit.GetAttributeValue<EntityReference>("parentbusinessunitid")?.Id),
-                parentBusinessUnitName = businessUnit.GetAttributeValue<EntityReference>("parentbusinessunitid")?.Name,
-                description = businessUnit.GetAttributeValue<string>("description")
-            };
-            string result = JsonSerializer.Serialize(buObj);
-            return $"Business Unit Details:\n {result}";
-        }*/
 
         [McpServerTool, Description("Search Business Unit details by keyword")]
         public async Task<string> SearchBUByKeyword(ServiceClient serviceClient,
@@ -556,51 +490,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        /*[McpServerTool, Description(
-        @"Get security role details by name. 
-        If a business unit id is not available, get the role details for Root Business Unit. 
-        GetRootBusinessUnit() MCP Tool can be used to get Root Business Unit details")]
-        public async Task<string> GetRoleByNameAndBU(ServiceClient serviceClient,
-            [Description("Name of the Security Role")] string roleName,
-            [Description("Business Unit Id (Guid). Default value is the Root Business Unit ID (Guid)")] string businessUnitId)
-        {
-            try
-            {
-                var query = new Microsoft.Xrm.Sdk.Query.QueryExpression("role")
-                {
-                    ColumnSet = new Microsoft.Xrm.Sdk.Query.ColumnSet("name", "roleid", "businessunitid"),
-                    Criteria = new Microsoft.Xrm.Sdk.Query.FilterExpression
-                    {
-                        Conditions =
-                    {
-                        new Microsoft.Xrm.Sdk.Query.ConditionExpression("name", ConditionOperator.Equal, roleName),
-                        new Microsoft.Xrm.Sdk.Query.ConditionExpression("businessunitid", ConditionOperator.Equal, new Guid(businessUnitId))
-                    }
-                    }
-                };
-                var roles = await serviceClient.RetrieveMultipleAsync(query);
-                if (roles.Entities.Count == 0)
-                {
-                    return $"No Security Role found with name {roleName}. Do you want to search for Security Role with the keyword {roleName}?";
-                }
-                var role = roles.Entities.First();
-                Role roleObj = new Role
-                {
-                    roleId = role.Id,
-                    name = role.GetAttributeValue<string>("name"),
-                    businessUnitId = (Guid)(role.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("businessunitid")?.Id),
-                    businessUnitName = role.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("businessunitid")?.Name
-                };
-                string result = JsonSerializer.Serialize(roleObj);
-                return $"Security Role Details:\n {result}";
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while fetching security role by name.");
-                return $"An error occurred: {ex.Message}";
-
-            }
-        }*/
+       
 
         [McpServerTool, Description(
         @"Search security role details by keyword. 
@@ -774,45 +664,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-       /* [McpServerTool, Description("Get the queue details by name")]
-        public async Task<string> GetQueueByName(ServiceClient serviceClient,
-            [Description("Name of the Queue")] string queueName)
-        {
-            try
-            {
-                var query = new QueryExpression("queue")
-                {
-                    ColumnSet = new ColumnSet("name", "queueid", "description"),
-                    Criteria = new FilterExpression
-                    {
-                        Conditions =
-                    {
-                        new ConditionExpression("name", ConditionOperator.Equal, queueName)
-                    }
-                    }
-                };
-                var queues = await serviceClient.RetrieveMultipleAsync(query);
-                if (queues.Entities.Count == 0)
-                {
-                    return $"No Queue found with name {queueName}. Do you want to search for Queue with the keyword {queueName}?";
-                }
-                var queue = queues.Entities.First();
-                Queue queueObj = new Queue
-                {
-                    queueId = queue.Id,
-                    name = queue.GetAttributeValue<string>("name"),
-                    description = queue.GetAttributeValue<string>("description")
-                };
-                string result = JsonSerializer.Serialize(queueObj);
-                return $"Queue Details:\n {result}";
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while fetching queue by name.");
-                return $"An error occurred: {ex.Message}";
-
-            }
-        }*/
+       
 
         [McpServerTool, Description("Search queue details by keyword")]
         public async Task<string> SearchQueuesByKeyword(ServiceClient serviceClient,
@@ -949,47 +801,7 @@ namespace DataverseDevToolsMcpServer.Tools
             }
         }
 
-        /*[McpServerTool, Description("Get team details by name")]
-        public async Task<string> GetTeamByName(ServiceClient serviceClient,
-            [Description("Name of the Team")] string teamName)
-        {
-            try
-            {
-                var query = new QueryExpression("team")
-                {
-                    ColumnSet = new ColumnSet("name", "teamid", "description", "businessunitid", "teamtype"),
-                    Criteria = new FilterExpression
-                    {
-                        Conditions =
-                    {
-                        new ConditionExpression("name", ConditionOperator.Equal, teamName)
-                    }
-                    }
-                };
-                var teams = await serviceClient.RetrieveMultipleAsync(query);
-                if (teams.Entities.Count == 0)
-                {
-                    return $"No Team found with name {teamName}. Do you want to search for Team with the keyword {teamName}?";
-                }
-                var team = teams.Entities.First();
-                Team teamObj = new Team
-                {
-                    teamId = team.Id,
-                    name = team.GetAttributeValue<string>("name"),
-                    description = team.GetAttributeValue<string>("description"),
-                    businessUnitId = (Guid)(team.GetAttributeValue<EntityReference>("businessunitid")?.Id),
-                    businessUnitName = team.GetAttributeValue<EntityReference>("businessunitid")?.Name,
-                    teamType = team.GetAttributeValue<OptionSetValue>("teamtype")?.Value ?? 0
-                };
-                string result = JsonSerializer.Serialize(teamObj);
-                return $"Team Details:\n {result}";
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while fetching team by name.");
-                return $"An error occurred: {ex.Message}";
-            }
-        }*/
+        
         [McpServerTool, Description("Search team details by keyword")]
         public async Task<string> SearchTeamsByKeyword(ServiceClient serviceClient,
             [Description("Keyword to search in name of Teams")] string keyword,
@@ -1285,6 +1097,6 @@ namespace DataverseDevToolsMcpServer.Tools
                 _logger.LogError(ex, "Error occurred while fetching security roles by team id.");
                 return $"An error occurred: {ex.Message}";
             }
-        }
+        }*/
     }
 }
