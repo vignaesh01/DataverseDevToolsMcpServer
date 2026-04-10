@@ -287,41 +287,6 @@ Use natural-language prompts in your MCP client; the client will map them to too
 
 Below are the tools exposed by the server, grouped by category. Each item links to its source.
 
-### User, Team & Queue Management
-
-| Tool Name | Description |
-| --- | --- |
-| GetCurrentUser | Get details of the current logged-in user |
-| GetUserById | Get user details by user ID |
-| SearchUsersByKeyword | Search users where fullname contains a keyword (with paging) |
-| GetUserQueues | List queues for a user (with paging) |
-| GetUserTeams | List teams for a user (with paging) |
-| GetUserRoles | List security roles for a user |
-| SearchBUByKeyword | Search BUs by keyword (with paging) |
-| GetRootBU | Get the root BU |
-| SearchRolesByKeywordAndBU | Search roles by keyword in a BU (with paging) |
-| AssignRoleToUser | Assign role to user |
-| RemoveRoleFromUser | Remove role from user |
-| ChangeUserBU | Change user’s BU |
-| SearchQueuesByKeyword | Search queues by keyword (with paging) |
-| AddUserToQueue | Add user to queue |
-| RemoveUserFromQueue | Remove user from queue |
-| SearchTeamsByKeyword | Search teams by keyword (with paging) |
-| AddUserToTeam | Add user to team |
-| RemoveUserFromTeam | Remove user from team |
-| AssignRoleToTeam | Assign role to team |
-| RemoveRoleFromTeam | Remove role from team |
-| ChangeTeamBU | Change team’s BU |
-| GetRolesByTeamId | List roles assigned to a team |
-
-### Security Management
-
-| Tool Name | Description |
-| --- | --- |
-| GetEntityPrivByRoleId | Privileges a role has on a specific entity |
-| GetAllPrivByRoleId | All privileges for a role |
-| ListRolesByPrivId | Roles having a specific privilege ID |
-
 ### Data Management
 
 | Tool Name | Description |
@@ -331,38 +296,18 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 | CreateRecord | Create a record (Web API) |
 | UpdateRecord | Update by ID (Web API) |
 | UpsertRecord | Upsert using alternate keys (Web API) |
+| AssociateRecords | Associate records using a relationship (N:N and 1:N) |
+| DissociateRecords | Dissociate records using a relationship (N:N and 1:N) |
 | DeleteRecord | Delete by ID (Web API) |
 
 ### Entity Metadata
 
 | Tool Name | Description |
 | --- | --- |
-| FindEntityLogicalNameUsingKeyword | Find entities by keyword |
-| ListAllEntities | List all entities |
 | GetEntityMetadata | Entity metadata information only |
 | GetFields | Attributes/fields metadata with pagination |
 | GetRelationships | Relationships metadata with pagination |
-| GetOptionSetValuesForEntityField | OptionSet values for a field |
-| FindGlobalOptionSet | Find global OptionSets |
-| GetGlobalOptionSetValues | Values of a global OptionSet |
-| ListAllGlobalOptionSets | List all global OptionSets |
 | GetEntityPrivileges | Privileges defined on an entity |
-
-### Custom Actions & Custom APIs
-
-| Tool Name | Description |
-| --- | --- |
-| FindCustomActionUsingKeyword | Find custom actions by keyword |
-| GetCustomActionMetadata | Get custom action metadata with Web API usage info |
-| FindCustomApiUsingKeyword | Find custom APIs by keyword |
-| GetCustomApiMetadata | Get custom API metadata with request/response parameters and Web API usage info |
-
-### Troubleshooting
-
-| Tool Name | Description |
-| --- | --- |
-| GetPluginTracesByName | Plugin trace logs by type name (with paging) |
-| GetPluginTracesByCorrId | Plugin trace logs by correlation ID (with paging) |
 
 ## Manage .Net Tool
 - Update:
@@ -378,10 +323,3 @@ Below are the tools exposed by the server, grouped by category. Each item links 
 - For Web API tools:
   - Use entity set names (plural schema names).
   - For lookups, use <SchemaName>@odata.bind with the URL of the related record.
-- Source files for tools:
-  - User Management: [DataverseDevToolsMcpServer/Tools/UserManagementTools.cs](DataverseDevToolsMcpServer/Tools/UserManagementTools.cs)
-  - Security Management: [DataverseDevToolsMcpServer/Tools/SecurityManagementTools.cs](DataverseDevToolsMcpServer/Tools/SecurityManagementTools.cs)
-  - Data Management: [DataverseDevToolsMcpServer/Tools/DataManagementTools.cs](DataverseDevToolsMcpServer/Tools/DataManagementTools.cs)
-  - Entity Metadata: [DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs](DataverseDevToolsMcpServer/Tools/EntityMetadataTools.cs)
-  - Custom Actions & Custom APIs: [DataverseDevToolsMcpServer/Tools/CustomActionApiTools.cs](DataverseDevToolsMcpServer/Tools/CustomActionApiTools.cs)
-  - Troubleshooting: [DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs](DataverseDevToolsMcpServer/Tools/TroubleshootingTools.cs)
